@@ -61,6 +61,9 @@ public class Logic2048 {
         // direction described by number position on clock board, for example 12 for up, 9 for left
         direction = direction % 12;
         switch(direction){
+            case 0:
+                moveUp();
+                break;
             case 3:
                 moveRight();
                 break;
@@ -69,9 +72,6 @@ public class Logic2048 {
                 break;
             case 9:
                 moveLeft();
-                break;
-            case 12:
-                moveUp();
                 break;
             default:
                 try{
