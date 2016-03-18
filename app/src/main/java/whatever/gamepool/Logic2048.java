@@ -1,12 +1,13 @@
 package whatever.gamepool;
 
+import java.util.EventListener;
 import java.util.Random;
 
 /**
  * Created by Whatever on 2016-03-17.
  * Class implementing 2048 game logic - basic operations of mowing elements up, down, left, right
  */
-public class Logic2048 {
+public class Logic2048 implements EventListener {
     private final int SIZE = 4;
     /*
     *  Matrix representing game board. Stores values for each field, zero for empty fields
@@ -58,9 +59,9 @@ public class Logic2048 {
     }
 
     // To be replaced by event listener
-    public void moveAndFill(Direction d){
+    public void onMove(MoveEvent d){
         // direction described by number position on clock board, for example 12 for up, 9 for left
-        switch(d){
+        switch(d.getDirection()){
             case UP:
                 moveUp();
                 break;
@@ -239,26 +240,5 @@ public class Logic2048 {
         Logic2048 test = new Logic2048();
         test.print();
         System.out.println("---START---\n");
-        test.moveAndFill(Direction.UP);
-        test.print();
-        test.moveAndFill(Direction.UP);
-        test.print();
-        test.moveAndFill(Direction.RIGHT);
-        test.print();
-        test.moveAndFill(Direction.UP);
-        test.print();
-        test.moveAndFill(Direction.UP);
-        test.print();
-        test.moveAndFill(Direction.LEFT);
-        test.print();
-        test.moveAndFill(Direction.UP);
-        test.print();
-        test.moveAndFill(Direction.DOWN);
-        test.print();
-        test.moveAndFill(Direction.UP);
-        test.print();
-    }
-    public enum Direction{
-        UP, RIGHT, DOWN, LEFT
     }
 }
