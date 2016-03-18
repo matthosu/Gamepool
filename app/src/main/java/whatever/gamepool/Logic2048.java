@@ -10,16 +10,26 @@ public class Logic2048 {
     private final int SIZE = 4;
     /*
     *  Matrix representing game board. Stores values for each field, zero for empty fields
-    *  Accessing values like in matrix, by [x,y]
+    *  Accessing values like in matrix, from [0, 0] to [SIZE-1, SIZE-1]
     */
     private final int [][] board;
     private Random rand;
+    private int score;
 
     public Logic2048() {
         board = new int[SIZE][SIZE];
         rand = new Random();
+        score = 0;
         fillRandom();
         fillRandom();
+    }
+
+    public int[][] getBoard(){
+        return board;
+    }
+
+    public int getScore(){
+        return score;
     }
 
     private void fillRandom() {
@@ -38,16 +48,12 @@ public class Logic2048 {
                 x = 0;
             }
         }
-        // Fill found field using appropriate value
+        // Set selected field using appropriate value
         if ( valueIs2 ){
             board[x][y] = 2;
         } else {
             board[x][y] = 4;
         }
-    }
-
-    public int[][] getBoard(){
-        return board;
     }
 
     // To be replaced by event listener
@@ -86,10 +92,11 @@ public class Logic2048 {
 
             for( int j =  SIZE - 2; j >= 0; j-- ){
                 if( (board[i][j] == cache) & (cache != 0) ){
+                    score += 2 * cache;
                     board[i][positionToWrite] = 2 * cache;
                     positionToWrite--;
                     cache = 0;
-                } else if ( (cache == 0) & (board[i][j] != 0) ) {   //
+                } else if ( (cache == 0) & (board[i][j] != 0) ) {
                     cache = board[i][j];
                 } else if ( board [i][j] != cache ){
                     cache = board [i][j];
@@ -97,9 +104,8 @@ public class Logic2048 {
                 }
             }
             if ( cache != 0 ){
-                board[i][positionToWrite] = 2 * cache;
+                board[i][positionToWrite] = cache;
                 positionToWrite--;
-                cache = 0;
             }
             while ( positionToWrite > 0 ){
                 board[i][positionToWrite] = 0;
@@ -114,6 +120,7 @@ public class Logic2048 {
 
             for( int j =  1; j < SIZE; j++ ){
                 if( (board[i][j] == cache) & (cache != 0) ){
+                    score += 2 * cache;
                     board[i][positionToWrite] = 2 * cache;
                     positionToWrite++;
                     cache = 0;
@@ -125,9 +132,8 @@ public class Logic2048 {
                 }
             }
             if ( cache != 0 ){
-                board[i][positionToWrite] = 2 * cache;
+                board[i][positionToWrite] = cache;
                 positionToWrite++;
-                cache = 0;
             }
             while ( positionToWrite < SIZE ){
                 board[i][positionToWrite] = 0;
@@ -141,6 +147,7 @@ public class Logic2048 {
             int cache = board [positionToWrite] [i];// value for join
 
             for( int j =  SIZE - 2; j >= 0; j-- ){
+                score += 2 * cache;
                 if( (board[j][i] == cache) & (cache != 0) ){
                     board[positionToWrite][i] = 2 * cache;
                     positionToWrite--;
@@ -153,9 +160,8 @@ public class Logic2048 {
                 }
             }
             if ( cache != 0 ){
-                board[positionToWrite][i] = 2 * cache;
+                board[positionToWrite][i] = cache;
                 positionToWrite--;
-                cache = 0;
             }
             while ( positionToWrite > 0 ){
                 board[positionToWrite][i] = 0;
@@ -170,6 +176,7 @@ public class Logic2048 {
 
             for( int j =  1; j < SIZE; j++ ){
                 if( (board[j][i] == cache) & (cache != 0) ){
+                    score += 2 * cache;
                     board[positionToWrite][i] = 2 * cache;
                     positionToWrite++;
                     cache = 0;
@@ -181,9 +188,8 @@ public class Logic2048 {
                 }
             }
             if ( cache != 0 ){
-                board[positionToWrite][i] = 2 * cache;
+                board[positionToWrite][i] = cache;
                 positionToWrite++;
-                cache = 0;
             }
             while ( positionToWrite < SIZE ){
                 board[positionToWrite][i] = 0;
