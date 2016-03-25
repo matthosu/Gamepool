@@ -155,7 +155,6 @@ public class Logic2048 implements EventListener {
         return changed;
     }
 
-
     private boolean moveUp() {
         boolean changed = false;
         for (int i = 0; i < SIZE; i++) {  // for each column
@@ -226,7 +225,7 @@ public class Logic2048 implements EventListener {
         return changed;
     }
 
-    public void print() {
+    /*public void print() {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 System.out.print(board[i][j] + " ");
@@ -240,5 +239,5 @@ public class Logic2048 implements EventListener {
         Logic2048 test = new Logic2048();
         test.print();
         System.out.println("---START---\n");
-    }
+    }*/
 }
