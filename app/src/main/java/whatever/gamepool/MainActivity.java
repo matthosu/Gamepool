@@ -2,19 +2,12 @@ package whatever.gamepool;
 
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
-import android.support.wearable.view.BoxInsetLayout;
-import android.view.View;
+import android.widget.GridLayout;
 import android.widget.TextView;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class MainActivity extends WearableActivity {
 
-    private BoxInsetLayout mContainerView;
-    private TextView mTextView;
-    private TextView mClockView;
+    private GridLayout mContainerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +15,8 @@ public class MainActivity extends WearableActivity {
         setContentView(R.layout.activity_main);
         setAmbientEnabled();
 
-        mContainerView = (BoxInsetLayout) findViewById(R.id.container);
+        mContainerView = (GridLayout) findViewById(R.id.container);
+        mContainerView.setBackgroundResource(R.drawable.background);
     }
 
     @Override
@@ -45,7 +39,7 @@ public class MainActivity extends WearableActivity {
 
     private void updateDisplay() {
         if (isAmbient()) {
-            mContainerView.setBackgroundColor(getResources().getColor(android.R.color.black));
+            mContainerView.setBackgroundResource(R.color.black);
         } else {
             mContainerView.setBackground(null);
         }
