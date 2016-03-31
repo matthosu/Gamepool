@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * Class implementing 2048 game logic - basic operations of mowing elements up, down, left, right
  */
-public class Logic2048 implements EventListener {
+public class Logic2048 implements MoveListener {
     private final int SIZE = 4;
     /*
     *  Matrix representing game board. Stores values for each field, zero for empty fields
@@ -58,7 +58,7 @@ public class Logic2048 implements EventListener {
     }
 
     // To be replaced by event listener
-    public void onMove(MoveEvent d) {
+    public void onEvent(MoveEvent d) {
         // direction described by number position on clock board, for example 12 for up, 9 for left
         switch (d.getDirection()) {
             case UP:

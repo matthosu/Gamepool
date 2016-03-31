@@ -11,10 +11,9 @@ public class MainActivity extends WearableActivity {
 
     private GridLayout mContainerView;
     private SensorManager mSensorManager;
-    private float mAccel; // acceleration apart from gravity
-    private float mAccelCurrent; // current acceleration including gravity
-    private float mAccelLast; // last acceleration including gravity
     private GyroRunner mSensorListener;
+    Logic2048 GameLogic;
+    GyroRunner Mover;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +24,12 @@ public class MainActivity extends WearableActivity {
         mContainerView = (GridLayout) findViewById(R.id.container);
         mContainerView.setBackgroundResource(R.drawable.background);
 
-        mSensorListener = new GyroRunner();
+        GameLogic = new Logic2048();
+        mSensorListener = new GyroRunner(GameLogic);
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-        mAccel = 0.00f;
-        mAccelCurrent = SensorManager.GRAVITY_EARTH;
-        mAccelLast = SensorManager.GRAVITY_EARTH;
+                            //Obiekt GameLogic obsługuje wyświetlanie, jest listenerem który dostaje wiadomości od mSensorListener (kiedy się poruszyć)
+                            //Jedyne co trzeba zrobić to wyświetlać zmieniające sie stany, za każdym razem kiedy apka dostanie sygnał
     }
 
     @Override
