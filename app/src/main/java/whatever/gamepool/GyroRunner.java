@@ -10,7 +10,7 @@ import android.hardware.SensorEventListener;
  * Before using - move listener should be set, probably
  */
 public class GyroRunner implements SensorEventListener {
-    MoveListener mListener;
+    private MoveListener mListener;
 
     public GyroRunner() {
     }
