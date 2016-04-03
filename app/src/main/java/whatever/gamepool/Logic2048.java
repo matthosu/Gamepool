@@ -1,5 +1,7 @@
 package whatever.gamepool;
 
+import android.app.Activity;
+
 import java.util.EventListener;
 import java.util.Random;
 
@@ -8,6 +10,7 @@ import java.util.Random;
  */
 public class Logic2048 implements MoveListener {
     private final int SIZE = 4;
+    private Displayer displayer;
     /*
     *  Matrix representing game board. Stores values for each field, zero for empty fields
     *  Accessing values like in matrix, from [0, 0] to [SIZE-1, SIZE-1]
@@ -16,12 +19,14 @@ public class Logic2048 implements MoveListener {
     private Random rand;
     private int score;
 
-    public Logic2048() {
+    public Logic2048(Activity a) {
+        displayer = new Displayer(a, SIZE);
         board = new int[SIZE][SIZE];
         rand = new Random();
         score = 0;
         fillRandom();
         fillRandom();
+        displayer.setDisplay(board);
     }
 
     public int[][] getBoard() {
@@ -83,6 +88,7 @@ public class Logic2048 implements MoveListener {
                 break;
         }
         fillRandom();
+        displayer.setDisplay(board);
     }
 
     private boolean moveRight() {

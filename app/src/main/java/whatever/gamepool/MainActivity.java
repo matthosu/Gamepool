@@ -24,7 +24,7 @@ public class MainActivity extends WearableActivity {
         mContainerView = (GridLayout) findViewById(R.id.container);
         mContainerView.setBackgroundResource(R.drawable.background);
 
-        GameLogic = new Logic2048();
+        GameLogic = new Logic2048(this);
         mSensorListener = new GyroRunner(GameLogic);
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
