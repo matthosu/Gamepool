@@ -27,6 +27,9 @@ public class Logic2048 implements MoveListener {
         fillRandom();
         fillRandom();
         displayer.setDisplay(board);
+        /*moveRight();
+        fillRandom();
+        displayer.setDisplay(board);*/
     }
 
     public int[][] getBoard() {
