@@ -67,7 +67,6 @@ public class Logic2048 implements MoveListener {
 
     // To be replaced by event listener
     public void onEvent(MoveEvent d) {
-        // direction described by number position on clock board, for example 12 for up, 9 for left
         switch (d.getDirection()) {
             case UP:
                 moveUp();

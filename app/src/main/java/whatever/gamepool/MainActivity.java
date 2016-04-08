@@ -1,17 +1,20 @@
 package whatever.gamepool;
 
+import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.widget.GridLayout;
+import android.os.PowerManager;
 
-public class MainActivity extends WearableActivity {
+public class MainActivity extends Activity {
 
     private GridLayout mContainerView;
     private SensorManager mSensorManager;
     private GyroRunner mSensorListener;
+    protected PowerManager.WakeLock mWakeLock;
     Logic2048 GameLogic;
     GyroRunner Mover;
 
@@ -19,7 +22,6 @@ public class MainActivity extends WearableActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setAmbientEnabled();
 
         mContainerView = (GridLayout) findViewById(R.id.container);
         mContainerView.setBackgroundResource(R.drawable.background);
@@ -27,21 +29,20 @@ public class MainActivity extends WearableActivity {
         GameLogic = new Logic2048(this);
         mSensorListener = new GyroRunner(GameLogic);
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), SensorManager.SENSOR_DELAY_GAME);
                             //Obiekt GameLogic obsługuje wyświetlanie, jest listenerem który dostaje wiadomości od mSensorListener (kiedy się poruszyć)
                             //Jedyne co trzeba zrobić to wyświetlać zmieniające sie stany, za każdym razem kiedy apka dostanie sygnał
+
+        final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
+        this.mWakeLock.acquire();
     }
 
-    @Override
-    public void onEnterAmbient(Bundle ambientDetails) {
-        super.onEnterAmbient(ambientDetails);
-        updateDisplay();
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), SensorManager.SENSOR_DELAY_GAME);
     }
 
     @Override
@@ -51,22 +52,9 @@ public class MainActivity extends WearableActivity {
     }
 
     @Override
-    public void onUpdateAmbient() {
-        super.onUpdateAmbient();
-        updateDisplay();
+    public void onDestroy() {
+        this.mWakeLock.release();
+        super.onDestroy();
     }
 
-    @Override
-    public void onExitAmbient() {
-        updateDisplay();
-        super.onExitAmbient();
-    }
-
-    private void updateDisplay() {
-        if (isAmbient()) {
-            mContainerView.setBackgroundResource(R.color.black);
-        } else {
-            mContainerView.setBackground(null);
-        }
-    }
 }

@@ -11,25 +11,34 @@ import android.hardware.SensorEventListener;
  */
 public class GyroRunner implements SensorEventListener {
     private MoveListener mListener;
-
+    private final int MOVEMENT_VALUE = 3;
+    private long lastChange;
     public GyroRunner() {
+        lastChange = System.nanoTime();
     }
 
     public GyroRunner(MoveListener ListenToNoises) {
         mListener = ListenToNoises;
+        lastChange = System.nanoTime();
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getStringType().equals(event.sensor.STRING_TYPE_GYROSCOPE)) {
-            if (event.values[1] > 1) {
-                mListener.onEvent(new MoveEvent(this, Directions.UP));
-            } else if (event.values[1] < -1) {
-                mListener.onEvent(new MoveEvent(this, Directions.DOWN));
-            } else if (event.values[0] > 1) {
-                mListener.onEvent(new MoveEvent(this, Directions.LEFT));
-            } else if (event.values[0] < -1) {
-                mListener.onEvent(new MoveEvent(this, Directions.RIGHT));
+            if(System.nanoTime() - lastChange > 1000000000 && (Math.abs(event.values[0]) > MOVEMENT_VALUE
+                    || Math.abs(event.values[1]) > MOVEMENT_VALUE) ) {
+                lastChange = System.nanoTime();
+                System.out.println(event.values[1] + " " + event.values[0]);
+
+                if (event.values[1] > MOVEMENT_VALUE) {
+                    mListener.onEvent(new MoveEvent(this, Directions.RIGHT));
+                } else if (event.values[1] < -MOVEMENT_VALUE) {
+                    mListener.onEvent(new MoveEvent(this, Directions.LEFT));
+                } else if (event.values[0] > MOVEMENT_VALUE) {
+                    mListener.onEvent(new MoveEvent(this, Directions.DOWN));
+                } else if (event.values[0] < -MOVEMENT_VALUE) {
+                    mListener.onEvent(new MoveEvent(this, Directions.UP));
+                }
             }
         }
     }
