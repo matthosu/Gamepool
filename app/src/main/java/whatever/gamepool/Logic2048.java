@@ -42,7 +42,7 @@ public class Logic2048 implements MoveListener {
 
     private void fillRandom() {
         int x = 0, y = 0;
-        int n = rand.nextInt(SIZE * SIZE);
+        int n = rand.nextInt(SIZE * SIZE) +1;
         boolean valueIs2 = rand.nextDouble() < 0.9;
         // Find n'th empty position, if reached end of board, start over
         while (n > 0) {
