@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context="whatever.gamepool.MainActivity"
+    tools:context=".Game2048Activity"
     tools:deviceIds="wear"
-    android:rowCount="4"
-    android:columnCount="4"
-    android:background="@drawable/background">
+    android:rowCount="5"
+    android:columnCount="5">
 
     <ImageView
         android:layout_width="66px"

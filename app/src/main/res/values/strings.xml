@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Gamepool</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="restart_game">Restart game</string>
+    <string name="restart_lvl">Restart level</string>
+    <string name="reset_score">Reset high score</string>
+    <string name="Back">Return to game</string>
 </resources>

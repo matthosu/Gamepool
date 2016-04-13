@@ -1,6 +1,8 @@
 package whatever.gamepool;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import java.util.EventListener;
 import java.util.Random;
@@ -9,40 +11,56 @@ import java.util.Random;
  * Class implementing 2048 game logic - basic operations of mowing elements up, down, left, right
  */
 public class Logic2048 implements MoveListener {
-    private final int SIZE = 4;
+    private static final int SIZE = 4;
     private Displayer displayer;
+    Game2048Activity game;
+
     /*
     *  Matrix representing game board. Stores values for each field, zero for empty fields
     *  Accessing values like in matrix, from [0, 0] to [SIZE-1, SIZE-1]
     */
-    private final int[][] board;
-    private Random rand;
-    private int score;
+    private static int[][] board;
+    private static Random rand = new Random();
+    private static int score = 0;
+    private static int maxScore = 0;
 
     public Logic2048(Activity a) {
         displayer = new Displayer(a, SIZE);
-        board = new int[SIZE][SIZE];
-        rand = new Random();
-        score = 0;
-        fillRandom();
-        fillRandom();
+        game = (Game2048Activity) a;
+
+        if(board == null) {
+            resetGame();
+        }
         displayer.setDisplay(board);
-        /*moveRight();
-        fillRandom();
-        displayer.setDisplay(board);*/
     }
 
-    public int[][] getBoard() {
+    public static int[][] getBoard() {
         return board;
     }
 
-    public int getScore() {
+    public static int getScore() {
         return score;
     }
 
-    private void fillRandom() {
+    public static int getMaxScore() {
+        return maxScore;
+    }
+
+    public static void resetGame() {
+        score = 0;
+        board = new int[SIZE][SIZE];
+        fillRandom();
+        fillRandom();
+    }
+
+    public static void resetMaxScore(){
+        maxScore = 0;
+        resetGame();
+    }
+
+    private static void fillRandom() {
         int x = 0, y = 0;
-        int n = rand.nextInt(SIZE * SIZE) +1;
+        int n = rand.nextInt(SIZE * SIZE) + 1;
         boolean valueIs2 = rand.nextDouble() < 0.9;
         // Find n'th empty position, if reached end of board, start over
         while (n > 0) {
@@ -67,18 +85,19 @@ public class Logic2048 implements MoveListener {
 
     // To be replaced by event listener
     public void onEvent(MoveEvent d) {
+        boolean changed = false;
         switch (d.getDirection()) {
             case UP:
-                moveUp();
+                changed = moveUp();
                 break;
             case RIGHT:
-                moveRight();
+                changed = moveRight();
                 break;
             case DOWN:
-                moveDown();
+                changed = moveDown();
                 break;
             case LEFT:
-                moveLeft();
+                changed = moveLeft();
                 break;
             default:
                 try {
@@ -89,7 +108,11 @@ public class Logic2048 implements MoveListener {
                 }
                 break;
         }
-        fillRandom();
+        if(changed) fillRandom();
+
+        if( checkIfFinished() ) {
+            Logic2048.resetGame();
+        }
         displayer.setDisplay(board);
     }
 
@@ -103,20 +126,20 @@ public class Logic2048 implements MoveListener {
                 if ((board[i][j] == cache) & (cache != 0)) {
                     changed = true;
                     score += 2 * cache;
+                    if(score > maxScore) maxScore = score;
                     board[i][positionToWrite] = 2 * cache;
                     positionToWrite--;
                     cache = 0;
                 } else if ((cache == 0) & (board[i][j] != 0)) {
                     cache = board[i][j];
                 } else if (board[i][j] != cache & (board[i][j] != 0)) {
-                    changed = true;
                     board[i][positionToWrite] = cache;
                     cache = board[i][j];
                     positionToWrite--;
                 }
             }
             if (cache != 0) {
-                changed = true;
+                if(board[i][positionToWrite] != cache) changed = true;
                 board[i][positionToWrite] = cache;
                 positionToWrite--;
             }
@@ -138,20 +161,20 @@ public class Logic2048 implements MoveListener {
                 if ((board[i][j] == cache) & (cache != 0)) {
                     changed = true;
                     score += 2 * cache;
+                    if(score > maxScore) maxScore = score;
                     board[i][positionToWrite] = 2 * cache;
                     positionToWrite++;
                     cache = 0;
                 } else if ((cache == 0) & (board[i][j] != 0)) {
                     cache = board[i][j];
                 } else if (board[i][j] != cache & (board[i][j] != 0)) {
-                    changed = true;
                     board[i][positionToWrite] = cache;
                     cache = board[i][j];
                     positionToWrite++;
                 }
             }
             if (cache != 0) {
-                changed = true;
+                if(board[i][positionToWrite] != cache) changed = true;
                 board[i][positionToWrite] = cache;
                 positionToWrite++;
             }
@@ -173,20 +196,20 @@ public class Logic2048 implements MoveListener {
                 if ((board[j][i] == cache) & (cache != 0)) {
                     changed = true;
                     score += 2 * cache;
+                    if(score > maxScore) maxScore = score;
                     board[positionToWrite][i] = 2 * cache;
                     positionToWrite++;
                     cache = 0;
                 } else if ((cache == 0) & (board[j][i] != 0)) {
                     cache = board[j][i];
                 } else if (board[j][i] != cache & (board[j][i] != 0)) {
-                    changed = true;
                     board[positionToWrite][i] = cache;
                     cache = board[j][i];
                     positionToWrite++;
                 }
             }
             if (cache != 0) {
-                changed = true;
+                if(board[positionToWrite][i] != cache) changed = true;
                 board[positionToWrite][i] = cache;
                 positionToWrite++;
             }
@@ -205,23 +228,23 @@ public class Logic2048 implements MoveListener {
             int cache = board[positionToWrite][i];// value for join
 
             for (int j = SIZE - 2; j >= 0; j--) {
-                score += 2 * cache;
                 if ((board[j][i] == cache) & (cache != 0)) {
                     changed = true;
+                    score += 2 * cache;
+                    if(score > maxScore) maxScore = score;
                     board[positionToWrite][i] = 2 * cache;
                     positionToWrite--;
                     cache = 0;
                 } else if ((cache == 0) & (board[j][i] != 0)) {
                     cache = board[j][i];
                 } else if (board[j][i] != cache & (board[j][i] != 0)) {
-                    changed = true;
                     board[positionToWrite][i] = cache;
                     cache = board[j][i];
                     positionToWrite--;
                 }
             }
             if (cache != 0) {
-                changed = true;
+                if(board[positionToWrite][i] != cache) changed = true;
                 board[positionToWrite][i] = cache;
                 positionToWrite--;
             }
@@ -231,6 +254,63 @@ public class Logic2048 implements MoveListener {
             }
         }
         return changed;
+    }
+
+    public static void loadState(int score, String boardStr, int maxScore) {
+        Logic2048.maxScore = maxScore;
+        if(boardStr != null){
+            Logic2048.score = score;
+            Logic2048.board = Logic2048.parseStringToBoard(boardStr);
+        }
+    }
+
+    private static int[][] parseStringToBoard(String boardStr) {
+        board = new int[SIZE][SIZE];
+        String[] values = boardStr.split(",");
+        for(int i = 0; i < SIZE; i++){
+            for(int j = 0; j < SIZE; j++){
+                board[i][j] = Integer.parseInt(values[i*SIZE + j]);
+            }
+        }
+        return board;
+    }
+
+    public static String getBoardParsedToString() {
+        String res = "";
+        for(int i = 0; i < SIZE; i++){
+            for(int j = 0; j < SIZE; j++){
+                res += board[i][j] + ",";
+            }
+        }
+        return res;
+    }
+
+    public boolean checkIfFinished(){
+        // look for free tile
+        for(int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (board[i][j] == 0) {
+                    return false;
+                }
+            }
+        }
+        // if none found check if merge possible
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (canBeMerged(i, j)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean canBeMerged(int i, int j) {
+        if( i > 0 && board[i][j] == board[i-1][j]) return true;
+        if( i < SIZE -1 && board[i][j] == board[i+1][j]) return true;
+        if( j > 0 && board[i][j] == board[i][j-1]) return true;
+        if( j < SIZE -1 && board[i][j] == board[i][j+1]) return true;
+        return false;
     }
 
     /*public void print() {
