@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class Menu2048Activity extends Activity{
+public class Menu2048Activity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +18,7 @@ public class Menu2048Activity extends Activity{
         int maxScore = prefs.getInt("maxScore", -1);
         int score = prefs.getInt("score", -1);
         String boardStr = prefs.getString("boardStr", null);
-        if(maxScore != -1){
+        if (maxScore != -1) {
             Logic2048.loadState(score, boardStr, maxScore);
         }
 
@@ -53,7 +53,7 @@ public class Menu2048Activity extends Activity{
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         updateScores();
     }
