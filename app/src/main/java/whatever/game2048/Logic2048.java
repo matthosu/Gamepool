@@ -1,8 +1,11 @@
-package whatever.gamepool;
+package whatever.game2048;
 
 import android.app.Activity;
 
 import java.util.Random;
+
+import whatever.gamepool.MoveEvent;
+import whatever.gamepool.MoveListener;
 
 /**
  * Class implementing 2048 game logic - basic operations of mowing elements up, down, left, right

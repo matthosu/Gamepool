@@ -7,7 +7,7 @@
     android:columnCount="5"
     android:orientation="horizontal"
     android:rowCount="5"
-    tools:context=".Game2048Activity"
+    tools:context="whatever.game2048.Game2048Activity"
     tools:deviceIds="wear">
 
     <ImageView

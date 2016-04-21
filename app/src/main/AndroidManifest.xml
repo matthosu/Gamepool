@@ -26,10 +26,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Game2048Activity"
+            android:name="whatever.game2048.Game2048Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Menu2048Activity"
+            android:name="whatever.game2048.Menu2048Activity"
             android:screenOrientation="portrait" />
     </application>
 

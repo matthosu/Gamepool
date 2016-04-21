@@ -1,4 +1,4 @@
-package whatever.gamepool;
+package whatever.game2048;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.widget.GridLayout;
+
+import whatever.gamepool.GyroRunner;
+import whatever.gamepool.R;
 
 public class Game2048Activity extends Activity {
 

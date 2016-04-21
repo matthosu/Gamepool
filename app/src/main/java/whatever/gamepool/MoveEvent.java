@@ -3,14 +3,14 @@ package whatever.gamepool;
 import java.util.EventObject;
 
 public class MoveEvent extends EventObject {
-    private Directions direction;
+    private GyroRunner.Directions direction;
 
-    public MoveEvent(GyroRunner source, Directions dir) {
+    public MoveEvent(GyroRunner source, GyroRunner.Directions dir) {
         super(source);
         direction = dir;
     }
 
-    public Directions getDirection() {
+    public GyroRunner.Directions getDirection() {
         return direction;
     }
 }

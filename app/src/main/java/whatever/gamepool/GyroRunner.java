@@ -49,4 +49,8 @@ public class GyroRunner implements SensorEventListener {
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
+
+    public static enum Directions {
+        UP, RIGHT, DOWN, LEFT
+    }
 }

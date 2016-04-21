@@ -9,6 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import whatever.game2048.Menu2048Activity;
+
 public class MainActivity extends Activity {
     private final Class[] activityContainer = {Menu2048Activity.class};
     private final String[] activityDescriptions = {"2048\nAn easy game, where we have to merge numbers"};
