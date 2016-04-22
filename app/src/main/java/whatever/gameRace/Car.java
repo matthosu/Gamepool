@@ -14,9 +14,8 @@ public class Car {
     private int posX, posY;
     // Car image X size;
     private int width, height;
-
     // Car image
-    ImageView img = null;
+    private ImageView img = null;
 
     public Car(int posX, int posY, int width, int height, ImageView img){
         this.posX = posX;
@@ -58,6 +57,12 @@ public class Car {
         if( posX + width - Car.INLET_X < other.posX + Car.INLET_X) return false;
         // Collision - other car neither on the left nor the right side of this
         return true;
+    }
+    public ImageView getImg() {
+        return img;
+    }
+    public void setImg(ImageView img) {
+        this.img = img;
     }
 
 }

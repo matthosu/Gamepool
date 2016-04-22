@@ -307,20 +307,4 @@ public class Logic2048 implements MoveListener {
                 || j > 0 && board[i][j] == board[i][j - 1]
                 || j < SIZE - 1 && board[i][j] == board[i][j + 1];
     }
-
-    /*public void print() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                System.out.print(board[i][j] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
-    public static void main(String[] args) {
-        Logic2048 test = new Logic2048();
-        test.print();
-        System.out.println("---START---\n");
-    }*/
 }

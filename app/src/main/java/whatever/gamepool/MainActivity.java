@@ -10,10 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import whatever.game2048.Menu2048Activity;
+import whatever.gameRace.MenuRaceActivity;
 
 public class MainActivity extends Activity {
-    private final Class[] activityContainer = {Menu2048Activity.class};
-    private final String[] activityDescriptions = {"2048\nAn easy game, where we have to merge numbers"};
+    private final Class[] activityContainer = {Menu2048Activity.class, MenuRaceActivity.class};
+    private final String[] activityDescriptions = {"2048\nAn easy game, where we have to merge numbers", "Race\nAn action game, where you drive a car and avoid collisions with others"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

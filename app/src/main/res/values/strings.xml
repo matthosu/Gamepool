@@ -6,4 +6,8 @@
     <string name="reset_score">Reset high score</string>
     <string name="Back">Return to game</string>
     <string name="mainTitle">Wybierz grę:</string>
+    <string name="score">Score:</string>
+    <string name="high_score">High Score:</string>
+    <string name="game2048_name">2048</string>
+    <string name="game_race_name">Race</string>
 </resources>
