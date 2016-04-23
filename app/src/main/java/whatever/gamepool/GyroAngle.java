@@ -5,14 +5,12 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-/**
- * Created by Mateusz on 2016-04-22.
- */
 public class GyroAngle implements SensorEventListener {   // need to be registered in listeners to SENSOR_ORIENTATION in activity
     private RotationListener mListener;
     private SensorManager hSensManager;
     private final int MOVEMENT_VALUE = 3;
     private long lastChange;
+
     public GyroAngle(SensorManager hManager) {
         lastChange = System.nanoTime();
     }

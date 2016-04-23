@@ -10,4 +10,9 @@
     <string name="high_score">High Score:</string>
     <string name="game2048_name">2048</string>
     <string name="game_race_name">Race</string>
+    <string name="car_image">car_image</string>
+    <string name="select_car_text">Click to change car</string>
+    <string name="zero">0</string>
+    <string name="select_level">Select level:</string>
+    <string name="easy">easy</string>
 </resources>

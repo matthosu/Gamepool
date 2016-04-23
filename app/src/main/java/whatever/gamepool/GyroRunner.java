@@ -13,6 +13,7 @@ public class GyroRunner implements SensorEventListener {
     private MoveListener mListener;
     private final int MOVEMENT_VALUE = 3;
     private long lastChange;
+
     public GyroRunner() {
         lastChange = System.nanoTime();
     }
@@ -25,8 +26,8 @@ public class GyroRunner implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getStringType().equals(event.sensor.STRING_TYPE_GYROSCOPE)) {
-            if(System.nanoTime() - lastChange > 1000000000 && (Math.abs(event.values[0]) > MOVEMENT_VALUE
-                    || Math.abs(event.values[1]) > MOVEMENT_VALUE) ) {
+            if (System.nanoTime() - lastChange > 1000000000 && (Math.abs(event.values[0]) > MOVEMENT_VALUE
+                    || Math.abs(event.values[1]) > MOVEMENT_VALUE)) {
                 lastChange = System.nanoTime();
                 if (event.values[1] > MOVEMENT_VALUE) {
                     mListener.onEvent(new MoveEvent(this, Directions.RIGHT));
