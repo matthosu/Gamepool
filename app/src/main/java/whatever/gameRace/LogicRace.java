@@ -1,5 +1,7 @@
 package whatever.gameRace;
 
+import android.graphics.Bitmap;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -8,6 +10,8 @@ import java.util.Random;
  * Created by Whatever on 2016-04-21.
  */
 public class LogicRace {
+    private static LogicRace instance = new LogicRace();
+
     private final static int RESOLUTION_X = 280;
     private final static int RESOLUTION_Y = 280;
     private final static int NUM_OF_LANES = 5;
@@ -22,8 +26,18 @@ public class LogicRace {
     private LinkedList<Car> obstacles;
     private Car player;
 
-    public LogicRace(){
+    private LogicRace(){
         initialize();
+    }
+
+    public static LogicRace getInstance(){
+        return instance;
+    }
+    public int getCarWidth(){
+        return CAR_WIDTH;
+    }
+    public int getCarHeight(){
+        return CAR_HEIGHT;
     }
 
     private void initialize(){
@@ -40,6 +54,15 @@ public class LogicRace {
             int lane = rand.nextInt(NUM_OF_LANES);
             while( !laneAvailable(lane) ) lane = (lane + 1) % NUM_OF_LANES;
             obstacles.add(new Car(15 + lane * CAR_WIDTH, 0, CAR_WIDTH, CAR_HEIGHT));
+            return true;
+        } else return false;
+    }
+
+    private boolean addObstacle(Bitmap[] img) {
+        if( !isFull() ) {
+            int lane = rand.nextInt(NUM_OF_LANES);
+            while( !laneAvailable(lane) ) lane = (lane + 1) % NUM_OF_LANES;
+            obstacles.add(new Car(15 + lane * CAR_WIDTH, 0, CAR_WIDTH, CAR_HEIGHT, img));
             return true;
         } else return false;
     }
@@ -84,7 +107,7 @@ public class LogicRace {
         initialize();
     }
 
-    public LinkedList<Car> getCars(){
+    public LinkedList<Car> getObstacles(){
         return obstacles;
     }
     public Car getPlayer(){

@@ -1,5 +1,6 @@
 package whatever.gameRace;
 
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 /**
@@ -15,14 +16,14 @@ public class Car {
     // Car image X size;
     private int width, height;
     // Car image
-    private ImageView img = null;
+    private Bitmap[] imgs = null;
 
-    public Car(int posX, int posY, int width, int height, ImageView img){
+    public Car(int posX, int posY, int width, int height, Bitmap[] imgs){
         this.posX = posX;
         this.posY = posY;
         this.width = width;
         this.height = height;
-        this.img = img;
+        this.imgs = imgs;
     }
     public Car(int posX, int posY, int width, int height){
         this(posX, posY, width, height, null);
@@ -58,11 +59,14 @@ public class Car {
         // Collision - other car neither on the left nor the right side of this
         return true;
     }
-    public ImageView getImg() {
-        return img;
+    public Bitmap[] getImgs() {
+        return imgs;
     }
-    public void setImg(ImageView img) {
-        this.img = img;
+    public void setImgs(Bitmap[] imgs) {
+        this.imgs = imgs;
+    }
+    public Bitmap getDefaultImg(){
+        return imgs.length > 1 ? imgs[1] : null ;
     }
 
 }
