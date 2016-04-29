@@ -37,6 +37,9 @@
             android:name="whatever.gameRace.MenuRaceActivity"
             android:label="@string/game_race_name"
             android:screenOrientation="portrait" />
+        <activity android:name="whatever.gameRace.GameRaceActivity"
+            android:label="Race play"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
