@@ -6,12 +6,12 @@ import android.os.Bundle;
 import whatever.gamepool.R;
 
 public class GameRaceActivity extends Activity {
-    private Canvas gameArea;
+        private Canvas gameArea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RaceView rw = new RaceView(this, null);
         setContentView(rw);
-    }
+}
 }

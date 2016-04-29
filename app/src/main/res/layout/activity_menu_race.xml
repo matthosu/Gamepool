@@ -17,12 +17,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
-        android:id="@+id/linearLayout"
+        android:id="@+id/raceLinearLayout"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
         <TextView
-            android:id="@+id/t2048_Score"
+            android:id="@+id/race_Score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -30,11 +30,11 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
-            android:id="@+id/t2048_ScoreValue"
+            android:id="@+id/race_ScoreValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="0"
+            android:text="@string/zero"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
 
@@ -43,11 +43,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
-        android:layout_alignTop="@+id/linearLayout"
-        android:layout_alignEnd="@+id/b2048_ResetGame">
+        android:layout_alignTop="@+id/raceLinearLayout"
+        android:layout_alignEnd="@+id/race_ResetGame"
+        android:id="@+id/raceLinearLayout2">
 
         <TextView
-            android:id="@+id/t2048_HighScore"
+            android:id="@+id/race_HighScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -55,26 +56,26 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
-            android:id="@+id/t2048_BestScoreValue"
+            android:id="@+id/race_BestScoreValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="0"
+            android:text="@string/zero"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/b2048_ResetScore"
+        android:id="@+id/race_ResetScore"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/reset_score"
         android:textSize="12sp"
         android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/b2048_Back" />
+        android:layout_centerHorizontal="true" />
 
     <Button
-        android:id="@+id/b2048_ResetGame"
+        android:id="@+id/race_ResetGame"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,10 +83,10 @@
         android:textSize="12sp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/b2048_ResetScore" />
+        android:layout_alignStart="@+id/race_levelValue" />
 
     <Button
-        android:id="@+id/b2048_Back"
+        android:id="@+id/race_Back"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -93,5 +94,48 @@
         android:textSize="12sp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/select_car_text"
+        android:id="@+id/carSelectText"
+        android:layout_below="@+id/raceLinearLayout2"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/carImageView"
+        android:onClick="onSwitch"
+        android:contentDescription="@string/car_image"
+        android:scaleType="fitStart"
+        android:layout_below="@+id/carSelectText"
+        android:layout_alignStart="@+id/carSelectText"
+        android:layout_above="@+id/race_difficultyLevel"
+        android:layout_alignEnd="@+id/carSelectText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/select_level"
+        android:id="@+id/race_difficultyLevel"
+        android:textSize="30sp"
+        android:layout_above="@+id/race_ResetScore"
+        android:layout_alignEnd="@+id/race_ResetScore" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/easy"
+        android:id="@+id/race_levelValue"
+        android:layout_toEndOf="@+id/race_ResetScore"
+        android:layout_alignTop="@+id/race_difficultyLevel"
+        android:layout_alignBottom="@+id/race_difficultyLevel"
+        android:layout_marginLeft="10dp"
+        android:onClick="onLevelChanged" />
 
 </RelativeLayout>
