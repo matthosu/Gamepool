@@ -6,9 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
-/**
- * Created by Whatever on 2016-04-21.
- */
 public class LogicRace {
     private static LogicRace instance = new LogicRace();
 
@@ -110,6 +107,7 @@ public class LogicRace {
     public LinkedList<Car> getObstacles(){
         return obstacles;
     }
+
     public Car getPlayer(){
         return player;
     }
