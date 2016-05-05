@@ -71,6 +71,7 @@ public class RaceView extends View {
         }
     }
 
+    @Override
     protected void onDraw(Canvas canvas) {
         Car player = LogicRace.getInstance().getPlayer();
         LinkedList<Car> obstacles = LogicRace.getInstance().getObstacles();
