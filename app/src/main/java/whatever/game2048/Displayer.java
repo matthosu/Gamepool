@@ -8,11 +8,12 @@ import whatever.gamepool.R;
 public class Displayer { //klasa odpowiedzialna za podstawianie obrazkow do Logic2048
     private final int SIZE;
     private Activity activity;
-    private final int[][] imageViewId = {{R.id.imageView00,R.id.imageView01,R.id.imageView02,R.id.imageView03},
-            {R.id.imageView10,R.id.imageView11,R.id.imageView12,R.id.imageView13},
-            {R.id.imageView20,R.id.imageView21,R.id.imageView22,R.id.imageView23},
-            {R.id.imageView30,R.id.imageView31,R.id.imageView32,R.id.imageView33}};
-// up - tablica zawierajaca id'ki pól w layout'cie
+    private final int[][] imageViewId = {{R.id.imageView00, R.id.imageView01, R.id.imageView02, R.id.imageView03},
+            {R.id.imageView10, R.id.imageView11, R.id.imageView12, R.id.imageView13},
+            {R.id.imageView20, R.id.imageView21, R.id.imageView22, R.id.imageView23},
+            {R.id.imageView30, R.id.imageView31, R.id.imageView32, R.id.imageView33}};
+
+    // up - tablica zawierajaca id'ki pól w layout'cie
     public Displayer(Activity a, int size) {
         SIZE = size;
         activity = a;
@@ -24,8 +25,8 @@ public class Displayer { //klasa odpowiedzialna za podstawianie obrazkow do Logi
 
     public void setDisplay(int[][] currTable) { //metoda zmieniajaca obrazki w layout'cie(Logic2048)
         ImageView square;
-        for(int row = 0; row < SIZE; row++) {
-            for(int column = 0; column < SIZE; column++) {
+        for (int row = 0; row < SIZE; row++) {
+            for (int column = 0; column < SIZE; column++) {
                 square = (ImageView) activity.findViewById(imageViewId[row][column]);
                 square.setImageResource(getDrawableId(currTable[row][column]));
             }
@@ -33,7 +34,7 @@ public class Displayer { //klasa odpowiedzialna za podstawianie obrazkow do Logi
     }
 
     private int getDrawableId(int id) { //metoda zwracajaca R.drawable w zaleznosci od wartosci w tablicy Logic2048
-        switch(id) {
+        switch (id) {
             case 0:
                 return R.drawable.board;
             case 2:
@@ -66,7 +67,7 @@ public class Displayer { //klasa odpowiedzialna za podstawianie obrazkow do Logi
                 return R.drawable.pic_16384;
             default:
                 return R.drawable.background;
-                //jak cos pojdzie zle to dostaniemy wizualny blad - pole bedzie wygladac jak background
+            //jak cos pojdzie zle to dostaniemy wizualny blad - pole bedzie wygladac jak background
         }
     }
 }

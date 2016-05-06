@@ -6,10 +6,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
-/**
- * Created by Whatever on 2016-04-21.
- */
-public class LogicRace extends RotationListener{
+import whatever.gamepool.EndGameEvent;
+import whatever.gamepool.EndGameListener;
+import whatever.gamepool.RotationEvent;
+import whatever.gamepool.RotationListener;
+
+public class LogicRace extends RotationListener {
     private static LogicRace instance = new LogicRace();
 
     private final static int RESOLUTION_X = 280;
@@ -95,7 +97,7 @@ public class LogicRace extends RotationListener{
             player.setPosX(RESOLUTION_X - CAR_WIDTH -15);
         }else if((int) (player.getPosX() + playerMove) < 15)
         {
-            player.serPosX(15);
+            player.setPosX(15);
         }else
         {
            player.setPosX((int) (player.getPosX() + playerMove));
@@ -121,6 +123,7 @@ public class LogicRace extends RotationListener{
     public LinkedList<Car> getObstacles(){
         return obstacles;
     }
+
     public Car getPlayer(){
         return player;
     }

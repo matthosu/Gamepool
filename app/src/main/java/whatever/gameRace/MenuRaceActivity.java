@@ -1,10 +1,13 @@
 package whatever.gameRace;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import whatever.gamepool.R;
 
@@ -24,15 +27,44 @@ public class MenuRaceActivity extends Activity {
 
         imageSwitcher = (ImageView) findViewById(R.id.carImageView);
         levelSwitcher = (Button) findViewById(R.id.race_levelValue);
-        /*SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         int maxScore = prefs.getInt("maxScore", -1);
         int score = prefs.getInt("score", -1);
         String boardStr = prefs.getString("boardStr", null);
-        if (maxScore != -1) {
+        /*if (maxScore != -1) {
             LogicRace.loadState(score, boardStr, maxScore);
         }*/
 
+        final Intent openGameVew = new Intent(this, GameRaceActivity.class);
+
+        Button rRestartGame = (Button) findViewById(R.id.race_ResetGame);
+        Button rResetScore = (Button) findViewById(R.id.race_ResetScore);
+        Button rBack = (Button) findViewById(R.id.race_Back);
+
+        rRestartGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //LogicRace.restartGame();
+                updateScores();
+                startActivity(openGameVew);
+            }
+        });
+        rResetScore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //LogicRace.resetMaxScore();
+                updateScores();
+            }
+        });
+        rBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(openGameVew);
+            }
+        });
+
         onSwitch(null);
+        startActivity(openGameVew);
     }
 
     public void onSwitch(View view) {
@@ -43,5 +75,18 @@ public class MenuRaceActivity extends Activity {
     public void onLevelChanged(View view) {
         position_level = (position_level + 1) % difficultyLevels.length;
         levelSwitcher.setText(difficultyLevels[position_level]);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateScores();
+    }
+
+    private void updateScores() {
+        TextView score = (TextView) findViewById(R.id.race_ScoreValue);
+        TextView maxScore = (TextView) findViewById(R.id.race_BestScoreValue);
+        //score.setText(String.valueOf(LogicRace.getScore()));
+        //maxScore.setText(String.valueOf(LogicRace.getMaxScore()));
     }
 }
