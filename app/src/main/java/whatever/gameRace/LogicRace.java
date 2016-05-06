@@ -11,7 +11,7 @@ import whatever.gamepool.EndGameListener;
 import whatever.gamepool.RotationEvent;
 import whatever.gamepool.RotationListener;
 
-public class LogicRace extends RotationListener {
+public class LogicRace implements RotationListener {
     private static LogicRace instance = new LogicRace();
 
     private final static int RESOLUTION_X = 280;
@@ -22,7 +22,7 @@ public class LogicRace extends RotationListener {
     }
 
     private final static int NUM_OF_LANES = 5;
-    private final static int CAR_WIDTH = (RESOLUTION_X - 30) / NUM_OF_LANES; // = 30 :p
+    private final static int CAR_WIDTH = (RESOLUTION_X - 30) / NUM_OF_LANES;
     private final static int CAR_HEIGHT = (int) (CAR_WIDTH * 1.5);
     private final static float SPEED = 0.02f;
     private final static Random rand = new Random();

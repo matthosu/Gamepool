@@ -68,8 +68,8 @@ public class RaceView extends View {
 
         int dstWidth = LogicRace.getInstance().getCarWidth();
         int dstHeight = LogicRace.getInstance().getCarHeight();
-        for(Bitmap b : images){
-            b = Bitmap.createScaledBitmap(b, dstWidth, dstHeight, false);
+        for(int i = 0; i < images.length; i++){
+            images[i] = Bitmap.createScaledBitmap(images[i], dstWidth, dstHeight, false);
         }
 
         switch(LogicRace.getInstance().getNumOfLanes()){
@@ -85,6 +85,7 @@ public class RaceView extends View {
             default :
                 road =  ( (BitmapDrawable) context.getResources().getDrawable(R.drawable.road_3)).getBitmap();
         }
+        road =  Bitmap.createScaledBitmap(road, 280, 450, false);
     }
 
     @Override

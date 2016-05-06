@@ -66,7 +66,7 @@ public class Car {
         this.imgs = imgs;
     }
     public Bitmap getDefaultImg(){
-        return imgs.length > 1 ? imgs[1] : null ;
+        return imgs != null && imgs.length > 1 ? imgs[1] : null ;
     }
 
 }
