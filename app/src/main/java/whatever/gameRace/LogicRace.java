@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * Created by Whatever on 2016-04-21.
  */
-public class LogicRace {
+public class LogicRace extends RotationListener{
     private static LogicRace instance = new LogicRace();
 
     private final static int RESOLUTION_X = 280;
@@ -25,6 +25,7 @@ public class LogicRace {
     private long startTime;
     private LinkedList<Car> obstacles;
     private Car player;
+    private static EndGameListener gameActivity;
 
     private LogicRace(){
         initialize();
@@ -86,9 +87,19 @@ public class LogicRace {
         }
         return true;
     }
-    public boolean move(double playerMove){
+    public boolean move(float playerMove){
         int elapsedTime = (int)( (System.nanoTime() - startTime) / 1000000000 );
-        player.setPosX((int) (player.getPosX() + playerMove));
+
+        if((int) (player.getPosX() + playerMove) > RESOLUTION_X - CAR_WIDTH - 15)
+        {
+            player.setPosX(RESOLUTION_X - CAR_WIDTH -15);
+        }else if((int) (player.getPosX() + playerMove) < 15)
+        {
+            player.serPosX(15);
+        }else
+        {
+           player.setPosX((int) (player.getPosX() + playerMove));
+        }//player.setPosX((int) (player.getPosX() + playerMove));
 
         for(Iterator<Car> carIterator = obstacles.iterator(); carIterator.hasNext();) {
             Car c = carIterator.next();
@@ -101,7 +112,7 @@ public class LogicRace {
         return true;
     }
     private void endGame() {
-
+        gameActivity.onEvent(new EndGameEvent(this));
     }
     public void restartGame(){
         initialize();
@@ -112,5 +123,12 @@ public class LogicRace {
     }
     public Car getPlayer(){
         return player;
+    }
+    public void onEvent(RotationEvent e)
+    {
+        if(!move(e.getDirection()))
+        {
+            endGame();
+        }
     }
 }
