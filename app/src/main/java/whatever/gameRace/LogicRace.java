@@ -11,10 +11,15 @@ public class LogicRace {
 
     private final static int RESOLUTION_X = 280;
     private final static int RESOLUTION_Y = 280;
+
+    public static int getNumOfLanes() {
+        return NUM_OF_LANES;
+    }
+
     private final static int NUM_OF_LANES = 5;
     private final static int CAR_WIDTH = (RESOLUTION_X - 30) / NUM_OF_LANES; // = 30 :p
     private final static int CAR_HEIGHT = (int) (CAR_WIDTH * 1.5);
-    private final static float SPEED = 0.01f;
+    private final static float SPEED = 0.02f;
     private final static Random rand = new Random();
 
     private static int bestScore = 0;
@@ -22,6 +27,11 @@ public class LogicRace {
     private long startTime;
     private LinkedList<Car> obstacles;
     private Car player;
+    private int roadMove;
+
+    public int getRoadMove() {
+        return roadMove;
+    }
 
     private LogicRace(){
         initialize();
@@ -85,15 +95,22 @@ public class LogicRace {
     }
     public boolean move(double playerMove){
         int elapsedTime = (int)( (System.nanoTime() - startTime) / 1000000000 );
-        player.setPosX((int) (player.getPosX() + playerMove));
+        if(player.getPosX() + playerMove < 15 ){
+            player.setPosX(15);
+        } else if(player.getPosX() + playerMove > RESOLUTION_X - CAR_WIDTH - 15 ){
+            player.setPosX(RESOLUTION_X - CAR_WIDTH - 15);
+        } else {
+            player.setPosX((int) (player.getPosX() + playerMove));
+        }
 
-        for(Iterator<Car> carIterator = obstacles.iterator(); carIterator.hasNext();) {
+        for(Iterator<Car> carIterator = obstacles.iterator(); carIterator.hasNext(); ) {
             Car c = carIterator.next();
             c.moveDown((int) (1 + elapsedTime * SPEED));
             if(player.checkCollision(c)) return false;
             if(c.getPosY() > RESOLUTION_Y) carIterator.remove();
         }
 
+        roadMove = (int) (1 + 2 * elapsedTime * SPEED);
         if(elapsedTime > bestScore) bestScore = elapsedTime;
         return true;
     }
