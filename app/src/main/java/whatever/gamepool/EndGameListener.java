@@ -5,6 +5,6 @@ import java.util.EventListener;
 /**
  * Created by Mateusz on 2016-04-22.
  */
-public interface RotationListener extends EventListener {
+public interface EndGameListener extends EventListener {
     void onEvent(EndGameEvent e);
 }

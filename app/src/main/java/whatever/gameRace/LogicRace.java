@@ -11,7 +11,7 @@ import whatever.gamepool.EndGameListener;
 import whatever.gamepool.RotationEvent;
 import whatever.gamepool.RotationListener;
 
-public class LogicRace extends RotationListener {
+public class LogicRace implements RotationListener {
     private static LogicRace instance = new LogicRace();
 
     private final static int RESOLUTION_X = 280;
@@ -129,7 +129,7 @@ public class LogicRace extends RotationListener {
     }
     public void onEvent(RotationEvent e)
     {
-        if(!move(e.getDirection()))
+        if(!move(e.getDirectionY()))
         {
             endGame();
         }

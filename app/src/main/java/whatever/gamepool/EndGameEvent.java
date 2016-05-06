@@ -4,7 +4,7 @@ import java.util.EventObject;
 
 public class EndGameEvent extends EventObject {
 
-    public EndGameEventEvent() {
+    public EndGameEvent(Object source) {
         super(source);
     }
 }

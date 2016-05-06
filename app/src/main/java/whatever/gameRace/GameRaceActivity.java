@@ -3,7 +3,9 @@ package whatever.gameRace;
 import android.app.Activity;
 import android.graphics.Canvas;
 import android.os.Bundle;
-import whatever.gamepool.R;
+
+import whatever.gamepool.EndGameEvent;
+import whatever.gamepool.EndGameListener;
 
 public class GameRaceActivity extends Activity implements EndGameListener {
         private Canvas gameArea;
