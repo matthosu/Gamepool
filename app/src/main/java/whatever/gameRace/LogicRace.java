@@ -42,6 +42,10 @@ public class LogicRace implements RotationListener {
     private LogicRace(){
         initialize();
     }
+    public void setEndGameListener(EndGameListener gameListener){
+        gameActivity = gameListener;
+
+    }
 
     public static LogicRace getInstance(){
         return instance;
