@@ -23,7 +23,9 @@ import whatever.gamepool.R;
  * TODO: document your custom view class.
  */
 public class RaceView extends View {
+    private final static boolean ANIMATE_ROAD = true;
     private Bitmap[] images;
+    private Bitmap road;
     Paint p;
     private int i, playerImgID;
 
@@ -69,10 +71,34 @@ public class RaceView extends View {
         for(Bitmap b : images){
             b = Bitmap.createScaledBitmap(b, dstWidth, dstHeight, false);
         }
+
+        switch(LogicRace.getInstance().getNumOfLanes()){
+            case 3 :
+                road =  ( (BitmapDrawable) context.getResources().getDrawable(R.drawable.road_3)).getBitmap();
+                break;
+            case 4 :
+                road =  ( (BitmapDrawable) context.getResources().getDrawable(R.drawable.road_4)).getBitmap();
+                break;
+            case 5 :
+                road =  ( (BitmapDrawable) context.getResources().getDrawable(R.drawable.road_5)).getBitmap();
+                break;
+            default :
+                road =  ( (BitmapDrawable) context.getResources().getDrawable(R.drawable.road_3)).getBitmap();
+        }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
+        // Drawing background
+        if(ANIMATE_ROAD){
+            int translation = LogicRace.getInstance().getRoadMove() % road.getHeight();
+            Bitmap roadFill = Bitmap.createBitmap(road, 0, translation, road.getWidth(), road.getHeight());
+            canvas.drawBitmap(roadFill, 0, 0, p);
+            canvas.drawBitmap(road, 0, translation, p);
+        } else {
+            canvas.drawBitmap(road, 0, 0, p);
+        }
+
         Car player = LogicRace.getInstance().getPlayer();
         LinkedList<Car> obstacles = LogicRace.getInstance().getObstacles();
 
