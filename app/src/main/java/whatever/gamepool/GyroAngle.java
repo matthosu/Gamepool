@@ -11,11 +11,11 @@ public class GyroAngle implements SensorEventListener {   // need to be register
     private final int MOVEMENT_VALUE = 3;
     private long lastChange;
 
-    public GyroAngle(SensorManager hManager) {
+    public GyroAngle() {
         lastChange = System.nanoTime();
     }
 
-    public GyroAngle(RotationListener ListenToNoises, SensorManager hManager) {
+    public GyroAngle(RotationListener ListenToNoises) {
         mListener = ListenToNoises;
         lastChange = System.nanoTime();
     }
