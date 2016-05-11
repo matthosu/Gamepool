@@ -27,13 +27,12 @@ public class MenuRaceActivity extends Activity {
 
         imageSwitcher = (ImageView) findViewById(R.id.carImageView);
         levelSwitcher = (Button) findViewById(R.id.race_levelValue);
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("prefsRace", MODE_PRIVATE);
         int maxScore = prefs.getInt("maxScore", -1);
         int score = prefs.getInt("score", -1);
-        String boardStr = prefs.getString("boardStr", null);
-        /*if (maxScore != -1) {
-            LogicRace.loadState(score, boardStr, maxScore);
-        }*/
+        if (maxScore != -1) {
+            LogicRace.loadState(score, maxScore);
+        }
 
         final Intent openGameVew = new Intent(this, GameRaceActivity.class);
 
@@ -44,7 +43,7 @@ public class MenuRaceActivity extends Activity {
         rRestartGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //LogicRace.restartGame();
+                LogicRace.getInstance().restartGame();
                 updateScores();
                 startActivity(openGameVew);
             }
@@ -52,7 +51,7 @@ public class MenuRaceActivity extends Activity {
         rResetScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //LogicRace.resetMaxScore();
+                LogicRace.resetBestScore();
                 updateScores();
             }
         });
@@ -64,7 +63,7 @@ public class MenuRaceActivity extends Activity {
         });
 
         onSwitch(null);
-        startActivity(openGameVew);
+        //startActivity(openGameVew);
     }
 
     public void onSwitch(View view) {
@@ -87,6 +86,6 @@ public class MenuRaceActivity extends Activity {
         TextView score = (TextView) findViewById(R.id.race_ScoreValue);
         TextView maxScore = (TextView) findViewById(R.id.race_BestScoreValue);
         //score.setText(String.valueOf(LogicRace.getScore()));
-        //maxScore.setText(String.valueOf(LogicRace.getMaxScore()));
+        maxScore.setText(String.valueOf(LogicRace.getBestScore()));
     }
 }

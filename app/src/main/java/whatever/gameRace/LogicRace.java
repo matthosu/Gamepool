@@ -27,6 +27,14 @@ public class LogicRace implements RotationListener {
     private final static float SPEED = 0.02f;
     private final static Random rand = new Random();
 
+    public static int getBestScore() {
+        return bestScore;
+    }
+
+    public static void resetBestScore() {
+        bestScore = 0;
+    }
+
     private static int bestScore = 0;
 
     private long startTime;
@@ -144,5 +152,9 @@ public class LogicRace implements RotationListener {
         {
             endGame();
         }
+    }
+
+    public static void loadState(int score, int maxScore) {
+         bestScore = maxScore;
     }
 }
