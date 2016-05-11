@@ -23,7 +23,7 @@ public class GyroAngle implements SensorEventListener {   // need to be register
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getStringType().equals(event.sensor.STRING_TYPE_ORIENTATION)) {
-            mListener.onEvent(new RotationEvent(this, event.values[1]));
+            mListener.onEvent(new RotationEvent(this, -event.values[2]));
         }
     }
 

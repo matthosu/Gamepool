@@ -91,6 +91,7 @@ public class RaceView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         // Drawing background
+
         if(ANIMATE_ROAD){
             int translation = LogicRace.getInstance().getRoadMove() % road.getHeight();
             //System.out.println("translation: " +translation + ", roadW: " + road.getWidth() + "roadH" + road.getHeight());

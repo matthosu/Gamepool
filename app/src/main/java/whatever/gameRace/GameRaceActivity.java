@@ -13,32 +13,28 @@ import android.os.PowerManager;
 import whatever.gamepool.EndGameEvent;
 import whatever.gamepool.EndGameListener;
 import whatever.gamepool.GyroAngle;
+import whatever.gamepool.RotationEvent;
+import whatever.gamepool.RotationListener;
 
-public class GameRaceActivity extends Activity implements EndGameListener {
+public class GameRaceActivity extends Activity implements RotationListener{
         private Canvas gameArea;
     private GyroAngle gyroInterpreter;
     private SensorManager mSensorManager;
     protected PowerManager.WakeLock mWakeLock;
-
+    private RaceView rw;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RaceView rw = new RaceView(this, null);
+        rw = new RaceView(this, null);
         setContentView(rw);
-        gyroInterpreter = new GyroAngle(LogicRace.getInstance());
+        gyroInterpreter = new GyroAngle(this);
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorManager.registerListener(gyroInterpreter, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_GAME);
-        LogicRace.getInstance().setEndGameListener(this);
 
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
         this.mWakeLock.acquire();
     }
-    public void onEvent(EndGameEvent e)
-    {
-        finish();
-    }
-
     @Override
     public void onDestroy() {
         this.mWakeLock.release();
@@ -48,4 +44,15 @@ public class GameRaceActivity extends Activity implements EndGameListener {
         editor.commit();
         super.onDestroy();
     }
+    public void onEvent(RotationEvent e)
+    {
+
+        if(!LogicRace.getInstance().move(e.getDirectionY())) {
+            finish();
+        }else {
+            rw.invalidate();
+
+        }
+    }
+
 }
