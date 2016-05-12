@@ -17,15 +17,14 @@ import whatever.gamepool.RotationEvent;
 import whatever.gamepool.RotationListener;
 
 public class GameRaceActivity extends Activity implements RotationListener{
-        private Canvas gameArea;
     private GyroAngle gyroInterpreter;
     private SensorManager mSensorManager;
     protected PowerManager.WakeLock mWakeLock;
     private RaceView rw;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        rw = new RaceView(this, null);
+        super.onCreate(null);
+        rw = new RaceView(this, null, getIntent().getIntExtra("colorId",0));
         setContentView(rw);
         gyroInterpreter = new GyroAngle(this);
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

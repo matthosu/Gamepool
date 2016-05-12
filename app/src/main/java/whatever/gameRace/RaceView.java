@@ -29,11 +29,11 @@ public class RaceView extends View {
     Paint p;
     private int i, playerImgID;
 
-    public RaceView(Context context, AttributeSet attrs) {
+    public RaceView(Context context, AttributeSet attrs, int playerId) {
         super(context, attrs);
         p = new Paint();
         i = 0;
-        playerImgID = 0;
+        playerImgID = playerId*3;
         images = new Bitmap[] {
                 ( (BitmapDrawable) context.getResources().getDrawable(R.drawable.car0)).getBitmap(),
                 ( (BitmapDrawable) context.getResources().getDrawable(R.drawable.car0_left)).getBitmap(),
@@ -72,20 +72,25 @@ public class RaceView extends View {
             images[i] = Bitmap.createScaledBitmap(images[i], dstWidth, dstHeight, false);
         }
 
+
+        System.out.println("##################************ lini przy tworzeniu widoku gry:" + LogicRace.getInstance().getNumOfLanes() + "*************#################");
         switch(LogicRace.getInstance().getNumOfLanes()){
             case 3 :
                 road =  ( (BitmapDrawable) context.getResources().getDrawable(R.drawable.road_3)).getBitmap();
+                road = Bitmap.createScaledBitmap(road, LogicRace.getInstance().getResX(), LogicRace.getInstance().getResY(), false);
                 break;
             case 4 :
                 road =  ( (BitmapDrawable) context.getResources().getDrawable(R.drawable.road_4)).getBitmap();
+                road = Bitmap.createScaledBitmap(road, LogicRace.getInstance().getResX(), LogicRace.getInstance().getResY(), false);
                 break;
             case 5 :
                 road =  ( (BitmapDrawable) context.getResources().getDrawable(R.drawable.road_5)).getBitmap();
+                road = Bitmap.createScaledBitmap(road, LogicRace.getInstance().getResX(), LogicRace.getInstance().getResY(), false);
                 break;
             default :
                 road =  ( (BitmapDrawable) context.getResources().getDrawable(R.drawable.road_3)).getBitmap();
+                road = Bitmap.createScaledBitmap(road, LogicRace.getInstance().getResX(), LogicRace.getInstance().getResY(), false);
         }
-        road =  Bitmap.createScaledBitmap(road, 280, 450, false);
     }
 
     @Override
@@ -96,7 +101,8 @@ public class RaceView extends View {
             int translation = LogicRace.getInstance().getRoadMove() % road.getHeight()+1;
             Bitmap roadFill = Bitmap.createBitmap(road, 0, road.getHeight()-translation, road.getWidth(), translation);
             canvas.drawBitmap(roadFill, 0, 0, p);
-            canvas.drawBitmap(road, 0, translation, p);
+            roadFill = Bitmap.createBitmap(road, 0, 0, road.getWidth(), road.getHeight()-translation);
+            canvas.drawBitmap(roadFill, 0, translation, p);
 
 
         } else {
@@ -106,10 +112,25 @@ public class RaceView extends View {
         Car player = LogicRace.getInstance().getPlayer();
         LinkedList<Car> obstacles = LogicRace.getInstance().getObstacles();
 
+
         if(player.getDefaultImg() == null) {
             player.setImgs(new Bitmap[]{images[playerImgID], images[playerImgID + 1], images[playerImgID + 2]});
         }
-        canvas.drawBitmap(player.getDefaultImg(), player.getPosX(), player.getPosY(), p);
+        switch(LogicRace.getInstance().getPlayerRL()){
+            case -1:
+                canvas.drawBitmap(player.getLImg(), player.getPosX(), player.getPosY(), p);
+                break;
+            case 0:
+                canvas.drawBitmap(player.getDefaultImg(), player.getPosX(), player.getPosY(), p);
+                break;
+            case 1:
+                canvas.drawBitmap(player.getRImg(), player.getPosX(), player.getPosY(), p);
+                break;
+            default:
+                canvas.drawBitmap(player.getDefaultImg(), player.getPosX(), player.getPosY(), p);
+                break;
+        }
+
 
         for(Car obst : obstacles){
             if(obst.getDefaultImg() == null){

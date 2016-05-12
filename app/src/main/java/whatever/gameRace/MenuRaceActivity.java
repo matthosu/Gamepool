@@ -12,6 +12,7 @@ import android.widget.TextView;
 import whatever.gamepool.R;
 
 public class MenuRaceActivity extends Activity {
+     Intent openGameVew;
     private final int[] carImages = {R.drawable.car0, R.drawable.car1, R.drawable.car2, R.drawable.car3,
             R.drawable.car4, R.drawable.car5, R.drawable.car6, R.drawable.car7, R.drawable.car8, R.drawable.car9};
     private  final String[] difficultyLevels = {"easy", "medium", "hard"};
@@ -34,7 +35,8 @@ public class MenuRaceActivity extends Activity {
             LogicRace.loadState(score, maxScore);
         }
 
-        final Intent openGameVew = new Intent(this, GameRaceActivity.class);
+        openGameVew = new Intent(this, GameRaceActivity.class);
+        openGameVew.putExtra("colorId",position_car );
 
         Button rRestartGame = (Button) findViewById(R.id.race_ResetGame);
         Button rResetScore = (Button) findViewById(R.id.race_ResetScore);
@@ -69,11 +71,14 @@ public class MenuRaceActivity extends Activity {
     public void onSwitch(View view) {
         position_car = (position_car + 1) % carImages.length;
         imageSwitcher.setImageResource(carImages[position_car]);
+        openGameVew.putExtra("colorId",position_car );
     }
 
     public void onLevelChanged(View view) {
         position_level = (position_level + 1) % difficultyLevels.length;
         levelSwitcher.setText(difficultyLevels[position_level]);
+        LogicRace.getInstance().setNumOfLanes(position_level + 3);
+        System.out.println("##################************ lini po ustawieniu:" + LogicRace.getInstance().getNumOfLanes() + "*************#################");
     }
 
     @Override

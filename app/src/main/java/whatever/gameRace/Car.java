@@ -8,8 +8,8 @@ import android.widget.ImageView;
  */
 public class Car {
     // Car image inlet (blank space between image border and car)
-    final static int INLET_X = 6;
-    final static int INLET_Y = 6;
+    static int INLET_X = (int)(7*3);
+    static int INLET_Y = (int)(8*3);
 
     // Car image top left corner position
     private int posX, posY;
@@ -49,9 +49,9 @@ public class Car {
     }
     public boolean checkCollision(Car other){
         // NO collision - other car on in front of this
-        if(other.posY + other.height - Car.INLET_Y < posY - Car.INLET_Y) return false;
+        if(other.posY + other.height - Car.INLET_Y < posY + Car.INLET_Y) return false;
         // NO collision - other car behind this
-        if(posY + height - Car.INLET_Y < other.posY - Car.INLET_Y) return false;
+        if(posY + height - Car.INLET_Y < other.posY + Car.INLET_Y) return false;
         // NO collision - other car on the right side of this
         if(other.posX + other.width - Car.INLET_X < posX + Car.INLET_X) return false;
         // NO collision - other car on the left side of this
@@ -66,7 +66,13 @@ public class Car {
         this.imgs = imgs;
     }
     public Bitmap getDefaultImg(){
+        return imgs != null && imgs.length > 1 ? imgs[0] : null ;
+    }
+    public Bitmap getLImg(){
         return imgs != null && imgs.length > 1 ? imgs[1] : null ;
+    }
+    public Bitmap getRImg(){
+        return imgs != null && imgs.length > 1 ? imgs[2] : null ;
     }
 
 }
