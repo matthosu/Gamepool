@@ -8,8 +8,8 @@ import android.widget.ImageView;
  */
 public class Car {
     // Car image inlet (blank space between image border and car)
-    final static int INLET_X = 0;
-    final static int INLET_Y = 0;
+    final static int INLET_X = 6;
+    final static int INLET_Y = 6;
 
     // Car image top left corner position
     private int posX, posY;
@@ -44,8 +44,8 @@ public class Car {
     public void setPosY(int posY){
         this.posY = posY;
     }
-    public void moveDown(int currSpeed){
-        posY += currSpeed;
+    public void moveDown(int translation){
+        posY += translation;
     }
     public boolean checkCollision(Car other){
         // NO collision - other car on in front of this

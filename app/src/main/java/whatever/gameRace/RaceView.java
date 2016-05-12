@@ -93,9 +93,8 @@ public class RaceView extends View {
         // Drawing background
 
         if(ANIMATE_ROAD){
-            int translation = LogicRace.getInstance().getRoadMove() % road.getHeight();
-            //System.out.println("translation: " +translation + ", roadW: " + road.getWidth() + "roadH" + road.getHeight());
-            Bitmap roadFill = Bitmap.createBitmap(road, 0, translation, road.getWidth(), road.getHeight()-translation);
+            int translation = LogicRace.getInstance().getRoadMove() % road.getHeight()+1;
+            Bitmap roadFill = Bitmap.createBitmap(road, 0, road.getHeight()-translation, road.getWidth(), translation);
             canvas.drawBitmap(roadFill, 0, 0, p);
             canvas.drawBitmap(road, 0, translation, p);
 
