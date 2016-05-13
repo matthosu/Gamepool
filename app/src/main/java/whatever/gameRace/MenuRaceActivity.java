@@ -12,10 +12,10 @@ import android.widget.TextView;
 import whatever.gamepool.R;
 
 public class MenuRaceActivity extends Activity {
-     Intent openGameVew;
+    Intent openGameVew;
     private final int[] carImages = {R.drawable.car0, R.drawable.car1, R.drawable.car2, R.drawable.car3,
             R.drawable.car4, R.drawable.car5, R.drawable.car6, R.drawable.car7, R.drawable.car8, R.drawable.car9};
-    private  final String[] difficultyLevels = {"3", "4", "5"};
+    private final String[] difficultyLevels = {"3", "4", "5"};
     ImageView imageSwitcher;
     Button levelSwitcher;
     private int position_car = 0; //index in carImage - answer for: which one is selected?
@@ -32,11 +32,10 @@ public class MenuRaceActivity extends Activity {
         int maxScore = prefs.getInt("maxScore", -1);
         int score = prefs.getInt("score", -1);
         if (maxScore != -1) {
-            LogicRace.loadState(score, maxScore);
-        }
+            LogicRace.getInstance().loadState(score, maxScore);        }
 
         openGameVew = new Intent(this, GameRaceActivity.class);
-        openGameVew.putExtra("colorId",position_car );
+        openGameVew.putExtra("colorId", position_car);
 
         Button rRestartGame = (Button) findViewById(R.id.race_ResetGame);
         Button rResetScore = (Button) findViewById(R.id.race_ResetScore);
@@ -71,7 +70,7 @@ public class MenuRaceActivity extends Activity {
     public void onSwitch(View view) {
         position_car = (position_car + 1) % carImages.length;
         imageSwitcher.setImageResource(carImages[position_car]);
-        openGameVew.putExtra("colorId",position_car );
+        openGameVew.putExtra("colorId", position_car);
     }
 
     public void onLevelChanged(View view) {
