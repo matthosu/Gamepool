@@ -15,7 +15,7 @@ public class MenuRaceActivity extends Activity {
      Intent openGameVew;
     private final int[] carImages = {R.drawable.car0, R.drawable.car1, R.drawable.car2, R.drawable.car3,
             R.drawable.car4, R.drawable.car5, R.drawable.car6, R.drawable.car7, R.drawable.car8, R.drawable.car9};
-    private  final String[] difficultyLevels = {"easy", "medium", "hard"};
+    private  final String[] difficultyLevels = {"3", "4", "5"};
     ImageView imageSwitcher;
     Button levelSwitcher;
     private int position_car = 0; //index in carImage - answer for: which one is selected?
@@ -78,7 +78,6 @@ public class MenuRaceActivity extends Activity {
         position_level = (position_level + 1) % difficultyLevels.length;
         levelSwitcher.setText(difficultyLevels[position_level]);
         LogicRace.getInstance().setNumOfLanes(position_level + 3);
-        System.out.println("##################************ lini po ustawieniu:" + LogicRace.getInstance().getNumOfLanes() + "*************#################");
     }
 
     @Override
@@ -90,7 +89,7 @@ public class MenuRaceActivity extends Activity {
     private void updateScores() {
         TextView score = (TextView) findViewById(R.id.race_ScoreValue);
         TextView maxScore = (TextView) findViewById(R.id.race_BestScoreValue);
-        //score.setText(String.valueOf(LogicRace.getScore()));
+        score.setText(String.valueOf(LogicRace.getInstance().getScore()));
         maxScore.setText(String.valueOf(LogicRace.getBestScore()));
     }
 }

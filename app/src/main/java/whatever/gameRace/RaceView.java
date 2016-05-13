@@ -101,7 +101,7 @@ public class RaceView extends View {
             int translation = LogicRace.getInstance().getRoadMove() % road.getHeight()+1;
             Bitmap roadFill = Bitmap.createBitmap(road, 0, road.getHeight()-translation, road.getWidth(), translation);
             canvas.drawBitmap(roadFill, 0, 0, p);
-            roadFill = Bitmap.createBitmap(road, 0, 0, road.getWidth(), road.getHeight()-translation);
+            roadFill = Bitmap.createBitmap(road, 0, 0, road.getWidth(), road.getHeight()-translation-1);
             canvas.drawBitmap(roadFill, 0, translation, p);
 
 

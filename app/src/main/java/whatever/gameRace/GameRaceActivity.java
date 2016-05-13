@@ -38,19 +38,17 @@ public class GameRaceActivity extends Activity implements RotationListener{
     public void onDestroy() {
         this.mWakeLock.release();
         SharedPreferences.Editor editor = getSharedPreferences("prefsRace", MODE_PRIVATE).edit();
-        editor.putInt("score", 0); // !!!! jak zrobicie 'getScore()' dla LogicRace to podmiencie !!!!
+        editor.putInt("score", LogicRace.getInstance().getScore());
         editor.putInt("maxScore", LogicRace.getBestScore());
         editor.commit();
         super.onDestroy();
     }
     public void onEvent(RotationEvent e)
     {
-
         if(!LogicRace.getInstance().move(e.getDirectionY())) {
             finish();
         }else {
             rw.invalidate();
-
         }
     }
 

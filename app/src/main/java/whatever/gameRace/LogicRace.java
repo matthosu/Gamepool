@@ -13,11 +13,11 @@ import whatever.gamepool.RotationListener;
 
 public class LogicRace{
     private final static Random rand = new Random();
-    private static LogicRace instance = new LogicRace();
+    private static final LogicRace instance = new LogicRace();
 
     private final static int RESOLUTION_X = (int)(280*3);
     private final static int RESOLUTION_Y = (int)(280*3);
-    private int NUM_OF_LANES = 4;
+    private int NUM_OF_LANES = 3;
     private int CAR_WIDTH = (RESOLUTION_X - 30) / NUM_OF_LANES;
     private int CAR_HEIGHT = (int) (CAR_WIDTH * 1.5);
     private float SPEED = 0.02f;
@@ -29,6 +29,7 @@ public class LogicRace{
     private Car player;
     private int roadMove;
     private int playerRL = 0;
+    private int score;
     private static EndGameListener gameActivity;
 
     public int getRoadMove() {
@@ -59,7 +60,9 @@ public class LogicRace{
                 CAR_WIDTH, CAR_HEIGHT);
         addObstacle();
         startTime = System.nanoTime();
-        System.out.println("##################************ " + startTime/1000000000 + "*************#################");
+        score = 0;
+        roadMove = 0;
+        System.out.println("##################************ " + startTime/1000000000  + "*************#################");
     }
 
     private synchronized boolean addObstacle() {
@@ -100,7 +103,6 @@ public class LogicRace{
         }
         return freeLanes;
     }
-
     private boolean laneAvailable(int lane) {
         for (Car c: obstacles) {
             if( c.getPosY() < CAR_HEIGHT * 3 && (c.getPosX()-15)/NUM_OF_LANES == lane ) return false;
@@ -126,8 +128,8 @@ public class LogicRace{
                 if(player.checkCollision(c)) return false;
                 if(c.getPosY() > RESOLUTION_Y) carIterator.remove();
             }
-
             roadMove += (int) (5 + 2 * elapsedTime * SPEED);
+            score = elapsedTime;
             if(elapsedTime > bestScore) bestScore = elapsedTime;
         }
 
@@ -136,8 +138,9 @@ public class LogicRace{
     private void endGame() {
         gameActivity.onEvent(new EndGameEvent(this));
     }
+
     public void restartGame(){
-        instance = new LogicRace();
+        instance.initialize();
     }
 
     public LinkedList<Car> getObstacles(){
@@ -173,7 +176,7 @@ public class LogicRace{
         bestScore = 0;
     }
 
-    public void setNumOfLanes(int num){
+    public synchronized void setNumOfLanes(int num){
         if(num >= 3 && num <= 5 ) {
             NUM_OF_LANES = num;
             CAR_WIDTH = (RESOLUTION_X - 30) / NUM_OF_LANES;
@@ -181,10 +184,13 @@ public class LogicRace{
             Car.INLET_X = (int)(0.1 * CAR_WIDTH);
             Car.INLET_Y = (int)(0.1 * CAR_HEIGHT);
         }
-        System.out.println("##################************ ustawiono lini: " + NUM_OF_LANES );
     }
 
     public static void loadState(int score, int maxScore) {
          bestScore = maxScore;
+    }
+
+    public int getScore() {
+        return  score;
     }
 }

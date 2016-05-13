@@ -13,6 +13,5 @@
     <string name="car_image">car_image</string>
     <string name="select_car_text">Click to change car</string>
     <string name="zero">0</string>
-    <string name="select_level">Select difficulty:</string>
-    <string name="easy">easy</string>
+    <string name="select_level">Number of lanes:</string>
 </resources>
