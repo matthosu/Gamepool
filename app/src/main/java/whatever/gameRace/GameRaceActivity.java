@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -28,6 +29,16 @@ public class GameRaceActivity extends Activity implements RotationListener {
         super.onCreate(null);
         rw = new RaceView(this, null, getIntent().getIntExtra("colorId",0));
         setContentView(rw);
+        rw.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    LogicRace.getInstance().isSpeededUp = true;
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    LogicRace.getInstance().isSpeededUp = false;
+            }
+                return true;
+        }});
         gyroInterpreter = new GyroAngle(this);
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorManager.registerListener(gyroInterpreter, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_GAME);
@@ -45,18 +56,18 @@ public class GameRaceActivity extends Activity implements RotationListener {
         editor.putInt("maxScore", LogicRace.getBestScore());
         editor.commit();
         mSensorManager.unregisterListener(gyroInterpreter, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION));
-
+        LogicRace.getInstance().isSpeededUp = false;
         super.onDestroy();
 
 
     }
 
     public void onEvent(RotationEvent e) {
-        int[] curr = LogicRace.getInstance().move(e.getDirectionY(), rw.isClicked);
+        int[] curr = LogicRace.getInstance().move(e.getDirectionY());
         if (!Arrays.equals(curr, (new int[]{-1,-1})) ){
             rw.boom(curr);
-            rw.isClicked = false;
             isFinished = true;
+
             mSensorManager.unregisterListener(gyroInterpreter, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION));
             Toast.makeText(this, "GAME OVER\nClick on screen to exit", Toast.LENGTH_LONG).show();
         } else {
