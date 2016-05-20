@@ -18,7 +18,7 @@ import whatever.gamepool.R;
 /**
  * TODO: document your custom view class.
  */
-public class RaceView extends View implements OnItemLongClickListener {
+public class RaceView extends View implements View.OnLongClickListener {
     private final static boolean ANIMATE_ROAD = true;
     private Bitmap[] images;
     private Bitmap road;
@@ -144,7 +144,7 @@ public class RaceView extends View implements OnItemLongClickListener {
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+    public boolean onLongClick(View v) {
         isClicked = true;
         return false;
     }
