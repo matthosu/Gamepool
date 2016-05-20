@@ -160,5 +160,6 @@ public class RaceView extends View implements View.OnLongClickListener {
 
     public void boom( int[] pos ) {
         boomPos = pos;
+        invalidate();
     }
 }

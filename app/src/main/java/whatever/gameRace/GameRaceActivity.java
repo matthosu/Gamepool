@@ -7,6 +7,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.view.MotionEvent;
+import android.widget.Toast;
 
 import java.util.Arrays;
 
@@ -19,6 +21,8 @@ public class GameRaceActivity extends Activity implements RotationListener {
     private RaceView rw;
     private SensorManager mSensorManager;
     private GyroAngle gyroInterpreter;
+    private boolean isFinished = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
@@ -49,13 +53,22 @@ public class GameRaceActivity extends Activity implements RotationListener {
 
     public void onEvent(RotationEvent e) {
         int[] curr = LogicRace.getInstance().move(e.getDirectionY(), rw.isClicked);
-        if (Arrays.equals(curr, (new int[]{-1,-1})) ){
+        if (!Arrays.equals(curr, (new int[]{-1,-1})) ){
             rw.boom(curr);
             rw.isClicked = false;
-            finish();
+            isFinished = true;
+            mSensorManager.unregisterListener(gyroInterpreter, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION));
+            Toast.makeText(this, "GAME OVER\nClick on screen to exit", Toast.LENGTH_LONG).show();
         } else {
             rw.invalidate();
         }
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(isFinished) {
+            finish();
+        }
+        return false;
+    }
 }
