@@ -32,5 +32,6 @@
         android:layout_below="@+id/titleComponent"
         android:layout_toEndOf="@+id/iconComponent"
         android:layout_alignBottom="@+id/iconComponent"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp"
+        android:textSize="17sp" />
 </RelativeLayout>

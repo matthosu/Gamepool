@@ -126,4 +126,33 @@ public class Car {
         return imgs != null && imgs.length > 1 ? imgs[2] : null;
     }
 
+    public int[] getCollisionCenter(Car other) {
+        if (other.posX >= posX && other.posY < posY) { //  Top Right corner collision
+            int i = (width - (other.posX - posX)) / 2;
+            int j = (height - (posY - other.posY)) / 2;
+            imgs[0].getPixel(i + other.posX - posX, j);
+            if (imgs[0].getPixel(i + other.posX - posX, j) != Color.TRANSPARENT
+                    && imgs[0].getPixel(i + other.posX - posX, j) != Color.TRANSPARENT)
+                return new int[]{i + other.posX, j + posY};
+        } else if (other.posX <= posX && other.posY < posY) { // Top Left corner collision
+            int i = (width - (posX - other.posX)) / 2;
+            int j = (height - (posY - other.posY)) / 2;
+            if (imgs[0].getPixel(i, j) != Color.TRANSPARENT
+                    && other.imgs[0].getPixel((posX - other.posX) + i, (posY - other.posY) + j) != Color.TRANSPARENT)
+                return new int[]{posX + 1, posY + j};
+        } else if (other.posX >= posX && other.posY > posY) { // Bottom Right corner collision
+            int i = (width - (other.posX - posX)) / 2;
+            int j = (height - (other.posY - posY)) / 2;
+            if (imgs[0].getPixel((other.posX - posX) + i, (other.posY - posY) + j) != Color.TRANSPARENT
+                    && other.imgs[0].getPixel(i, j) != Color.TRANSPARENT)
+                return new int[]{other.posX + i, other.posY + j};
+        } else if (other.posX <= posX && other.posY > posY) { // Bottom Left corner collision
+            int i = (width - (posX - other.posX)) / 2;
+            int j = (height - (other.posY - posY)) / 2;
+            if (imgs[0].getPixel(i, (other.posY - posY) + j) != Color.TRANSPARENT
+                    && other.imgs[0].getPixel((posX - other.posX) + i, j) != Color.TRANSPARENT)
+                return new int[]{posX + i, other.posY + j};
+        }
+        return new int[]{-1,-1};
+    }
 }

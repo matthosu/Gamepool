@@ -8,6 +8,8 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.PowerManager;
 
+import java.util.Arrays;
+
 import whatever.gamepool.GyroAngle;
 import whatever.gamepool.RotationEvent;
 import whatever.gamepool.RotationListener;
@@ -46,7 +48,9 @@ public class GameRaceActivity extends Activity implements RotationListener {
     }
 
     public void onEvent(RotationEvent e) {
-        if (!LogicRace.getInstance().move(e.getDirectionY(), rw.isClicked)) {
+        int[] curr = LogicRace.getInstance().move(e.getDirectionY(), rw.isClicked);
+        if (Arrays.equals(curr, (new int[]{-1,-1})) ){
+            rw.boom(curr);
             rw.isClicked = false;
             finish();
         } else {
