@@ -7,7 +7,7 @@ import whatever.gamepool.R;
 
 public class Displayer { //klasa odpowiedzialna za podstawianie obrazkow do Logic2048
     private final int SIZE;
-    private Activity activity;
+    private Game2048Activity activity;
     private final int[][] imageViewId = {{R.id.imageView00, R.id.imageView01, R.id.imageView02, R.id.imageView03},
             {R.id.imageView10, R.id.imageView11, R.id.imageView12, R.id.imageView13},
             {R.id.imageView20, R.id.imageView21, R.id.imageView22, R.id.imageView23},
@@ -16,11 +16,20 @@ public class Displayer { //klasa odpowiedzialna za podstawianie obrazkow do Logi
     // up - tablica zawierajaca id'ki pól w layout'cie
     public Displayer(Activity a, int size) {
         SIZE = size;
-        activity = a;
+        activity = (Game2048Activity) a;
+
+        setResolution();
     }
 
-    public int[][] getPicId() {
-        return imageViewId;
+    private void setResolution() {
+        activity.findViewById(R.id.container).getLayoutParams().height = activity.width;
+        activity.findViewById(R.id.scoreLayout).getLayoutParams().height = activity.height - activity.width;
+        for (int res[] : imageViewId) {
+            for(int image : res) {
+                activity.findViewById(image).getLayoutParams().height = activity.width / 4;
+                activity.findViewById(image).getLayoutParams().width = activity.width / 4;
+            }
+        }
     }
 
     public void setDisplay(int[][] currTable) { //metoda zmieniajaca obrazki w layout'cie(Logic2048)

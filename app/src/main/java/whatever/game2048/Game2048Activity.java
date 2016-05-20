@@ -3,10 +3,12 @@ package whatever.game2048;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.view.Display;
 import android.widget.GridLayout;
 
 import whatever.gamepool.GyroRunner;
@@ -18,11 +20,15 @@ public class Game2048Activity extends Activity {
     private GyroRunner mSensorListener;
     protected PowerManager.WakeLock mWakeLock;
     public static Logic2048 GameLogic;
+    public int width;
+    public int height;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game2048);
+
+        initialize();
 
         GridLayout mContainerView = (GridLayout) findViewById(R.id.container);
         mContainerView.setBackgroundResource(R.drawable.background);
@@ -60,5 +66,13 @@ public class Game2048Activity extends Activity {
         editor.putInt("maxScore", Logic2048.getMaxScore());
         editor.commit();
         super.onDestroy();
+    }
+
+    private void initialize() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        width = size.x;
+        height = size.y;
     }
 }
