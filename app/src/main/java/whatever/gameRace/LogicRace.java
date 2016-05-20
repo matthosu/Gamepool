@@ -1,5 +1,6 @@
 package whatever.gameRace;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -58,14 +59,46 @@ public class LogicRace {
     }
 
     private synchronized boolean addObstacle() {
-        boolean[] freeLanes = getFreeLanes();
-        int i = 0;
+        boolean[] isLaneTaken = new boolean[NUM_OF_LANES];
+        boolean [] lanesSecondRowTaken = new boolean[NUM_OF_LANES];
+
+        //boolean[] freeLanes = getFreeLanes();
+        /*int i = 0;
         int lane = rand.nextInt(NUM_OF_LANES);
         while (i < NUM_OF_LANES && !freeLanes[lane]) {
             lane = (lane + 1) % NUM_OF_LANES;
             i++;
         }
-        if (freeLanes[lane] && willLeaveWayOut(lane)) {
+        if (freeLanes[lane] && willLeaveWayOut(lane)) */
+        boolean willAdd = false;
+        for(Car obs:obstacles){
+            if (obs.getPosY() > CAR_HEIGHT) break;
+            if(obs.getPosY() < -(CAR_HEIGHT/2)){
+                isLaneTaken[(obs.getPosX()-15)%CAR_WIDTH] = true;
+            }else if(obs.getPosY() < CAR_HEIGHT/2)
+            {
+                isLaneTaken[(obs.getPosX()-15)%CAR_WIDTH] = true;
+                lanesSecondRowTaken[(obs.getPosX()-15)%CAR_WIDTH] = true;
+            }else{
+                lanesSecondRowTaken[(obs.getPosX()-15)%CAR_WIDTH] = true;
+            }
+
+        }
+        ArrayList<Integer>lanesToAdd = new ArrayList<>();
+        for(int i = 0; i < NUM_OF_LANES; i++)
+        {
+            if(!isLaneTaken[i] && !lanesSecondRowTaken[i])
+            {
+                lanesToAdd.add(i);
+            }
+        }
+        int lane = -1;
+        if(lanesToAdd.size() > 1)
+        {
+            willAdd = true;
+            lane = lanesToAdd.get((int)Math.random()*lanesToAdd.size());
+        }
+        if(willAdd){
             obstacles.add(new Car(15 + lane * CAR_WIDTH, -CAR_HEIGHT, CAR_WIDTH, CAR_HEIGHT));
             return true;
         } else {
