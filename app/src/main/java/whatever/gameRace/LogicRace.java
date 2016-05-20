@@ -18,7 +18,7 @@ public class LogicRace {
     private int CAR_WIDTH = (RESOLUTION_X - 30) / NUM_OF_LANES;
     private int CAR_HEIGHT = (int) (CAR_WIDTH * 1.5);
     private float SPEED = 0.02f;
-    private float SPAWN_FACTOR = 0.002f;
+    private float SPAWN_FACTOR = 0.01f;
 
     private static int bestScore = 0;
     private long startTime;
@@ -67,16 +67,22 @@ public class LogicRace {
     private synchronized boolean addObstacle() {
         boolean[] freeLanes = getFreeLanes();
         System.out.print("FREE LANEs: |");
+        boolean anyLaneAvailable = false;
         for(int i = 0; i < freeLanes.length; i++){
             System.out.print(freeLanes[i]?(i+" | ") : "" );
+            if(freeLanes[i]) anyLaneAvailable = true;
         }
+        if(!anyLaneAvailable) return false;
         System.out.println();
+
         int i = 0;
         int lane = rand.nextInt(NUM_OF_LANES);
         while (i < NUM_OF_LANES && !freeLanes[lane]) {
             lane = (lane + 1) % NUM_OF_LANES;
             i++;
         }
+        System.out.println("Trying to add on lane no. : " + lane + " which is " + (willLeaveWayOut(lane)?"free":"taken") );
+
         if (freeLanes[lane] && willLeaveWayOut(lane))
 
         /*boolean willAdd = false;
@@ -130,12 +136,26 @@ public class LogicRace {
     }
 
     private boolean willLeaveWayOut(int lane) {
-        int playerLane = (player.getPosX() - SIDEROAD_WIDTH ) / CAR_WIDTH;
+        System.out.println("WESZło0");
+        int playerLane = (int) ((player.getPosX() - SIDEROAD_WIDTH + 0.2*CAR_WIDTH) / CAR_WIDTH);
+        System.out.println("WESZło1");
         if (lane >= playerLane - 1 && lane <= playerLane + 1) {
+            System.out.println("samochód na pozycji : " + playerLane);
             int waysOut = 3;
-            if (!laneAvailable(playerLane - 1)) waysOut--;
-            if (!laneAvailable(playerLane)) waysOut--;
-            if (!laneAvailable(playerLane + 1)) waysOut--;
+            if (!laneAvailable(playerLane - 1)) {
+                waysOut--;
+                System.out.println("zajęte L");
+            }
+
+            if (!laneAvailable(playerLane)) {
+                waysOut--;
+                System.out.println("zajęty C");
+            }
+
+            if (!laneAvailable(playerLane + 1)) {
+                waysOut--;
+                System.out.println("zajęte R");
+            }
             return waysOut > 1;
         } else return laneAvailable(lane);
 
@@ -145,6 +165,7 @@ public class LogicRace {
         boolean[] freeLanes = new boolean[NUM_OF_LANES];
         for (int i = 0; i < freeLanes.length; i++) freeLanes[i] = true;
         for (int i = 0; i < obstacles.size() && i <= NUM_OF_LANES; i++) {
+            if(obstacles.get(obstacles.size() - i - 1).getPosY() < CAR_HEIGHT)
                 freeLanes[(obstacles.get(obstacles.size() - i - 1).getPosX() - SIDEROAD_WIDTH) / getCarWidth()] = false;
         }
         return freeLanes;
@@ -153,13 +174,21 @@ public class LogicRace {
     private boolean laneAvailable(int lane) {
         if(lane < 0 || lane >= NUM_OF_LANES) return false;
         for (Car c : obstacles) {
-            if (c.getPosY() < CAR_HEIGHT * 3 && (c.getPosX() - SIDEROAD_WIDTH) / NUM_OF_LANES == lane)
+            if (c.getPosY() < CAR_HEIGHT && (c.getPosX() - SIDEROAD_WIDTH) / CAR_WIDTH == lane)
+                return false;
+        }
+        return true;
+    }
+    private boolean laneAvailable2(int lane) {
+        if(lane < 0 || lane >= NUM_OF_LANES) return false;
+        for (Car c : obstacles) {
+            if (c.getPosY() < CAR_HEIGHT && (c.getPosX() - SIDEROAD_WIDTH) / CAR_WIDTH == lane)
                 return false;
         }
         return true;
     }
 
-    public boolean move(double playerMove, boolean isSpeed) {
+    public int[] move(double playerMove, boolean isSpeed) {
         int elapsedTime = (int) ((System.nanoTime() - startTime) / 1000000000);
         if (elapsedTime > 1) {
             playerRL = (int) Math.signum(Math.round(playerMove * 100000) / 100000);
@@ -180,14 +209,14 @@ public class LogicRace {
                 else{
                     c.moveDown((int) (SIDEROAD_WIDTH + elapsedTime * SPEED));
                 }
-                if (player.checkCollision(c)) return false;
+                if (player.checkCollision(c)) return player.getCollisionCenter(c);
                 if (c.getPosY() > RESOLUTION_Y) carIterator.remove();
             }
             roadMove += (int) (5 + 2 * elapsedTime * SPEED);
             if (elapsedTime > bestScore) bestScore = elapsedTime;
         }
 
-        return true;
+        return new int[]{-1,-1};
     }
 
     public void restartGame() {

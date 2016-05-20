@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import whatever.gamepool.R;
@@ -22,9 +24,11 @@ public class RaceView extends View implements View.OnLongClickListener {
     private final static boolean ANIMATE_ROAD = true;
     private Bitmap[] images;
     private Bitmap road;
+    private Bitmap boom;
     Paint p;
     private int i, playerImgID;
     public boolean isClicked;
+    public int[] boomPos = new int[]{-1,-1};
 
     public RaceView(Context context, AttributeSet attrs, int playerId) {
         super(context, attrs);
@@ -87,6 +91,8 @@ public class RaceView extends View implements View.OnLongClickListener {
                 road = Bitmap.createScaledBitmap(road, LogicRace.getInstance().getResX(), LogicRace.getInstance().getResY(), false);
         }
 
+        boom = ((BitmapDrawable) context.getResources().getDrawable(R.drawable.boom)).getBitmap();
+
         System.out.print("WIDTH:");
         for(int i = 1; i < images[0].getWidth(); i++){
             if(images[0].getPixel(i,images[0].getHeight()/2) != Color.TRANSPARENT )
@@ -141,11 +147,18 @@ public class RaceView extends View implements View.OnLongClickListener {
             }
             canvas.drawBitmap(obst.getDefaultImg(), obst.getPosX(), obst.getPosY(), p);
         }
+        if(!Arrays.equals(boomPos, (new int[]{-1,-1}))){
+            canvas.drawBitmap(boom, boomPos[0] - boom.getWidth()/2, boomPos[1] - boom.getHeight()/2, p);
+        }
     }
 
     @Override
     public boolean onLongClick(View v) {
         isClicked = true;
         return false;
+    }
+
+    public void boom( int[] pos ) {
+        boomPos = pos;
     }
 }
