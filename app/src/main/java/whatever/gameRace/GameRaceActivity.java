@@ -15,14 +15,15 @@ import whatever.gamepool.RotationListener;
 public class GameRaceActivity extends Activity implements RotationListener {
     protected PowerManager.WakeLock mWakeLock;
     private RaceView rw;
-
+    private SensorManager mSensorManager;
+    private GyroAngle gyroInterpreter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
-        rw = new RaceView(this, null, getIntent().getIntExtra("colorId", 0));
+        rw = new RaceView(this, null, getIntent().getIntExtra("colorId",0));
         setContentView(rw);
-        GyroAngle gyroInterpreter = new GyroAngle(this);
-        SensorManager mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        gyroInterpreter = new GyroAngle(this);
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorManager.registerListener(gyroInterpreter, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_GAME);
 
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -37,7 +38,11 @@ public class GameRaceActivity extends Activity implements RotationListener {
         editor.putInt("score", LogicRace.getInstance().getScore());
         editor.putInt("maxScore", LogicRace.getBestScore());
         editor.commit();
+        mSensorManager.unregisterListener(gyroInterpreter, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION));
+
         super.onDestroy();
+
+
     }
 
     public void onEvent(RotationEvent e) {

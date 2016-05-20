@@ -3,6 +3,7 @@ package whatever.gameRace;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
@@ -68,9 +69,6 @@ public class RaceView extends View implements OnItemLongClickListener {
         for (int i = 0; i < images.length; i++) {
             images[i] = Bitmap.createScaledBitmap(images[i], dstWidth, dstHeight, false);
         }
-
-
-        System.out.println("##################************ lini przy tworzeniu widoku gry:" + LogicRace.getInstance().getNumOfLanes() + "*************#################");
         switch (LogicRace.getInstance().getNumOfLanes()) {
             case 3:
                 road = ((BitmapDrawable) context.getResources().getDrawable(R.drawable.road_3)).getBitmap();
@@ -88,6 +86,12 @@ public class RaceView extends View implements OnItemLongClickListener {
                 road = ((BitmapDrawable) context.getResources().getDrawable(R.drawable.road_3)).getBitmap();
                 road = Bitmap.createScaledBitmap(road, LogicRace.getInstance().getResX(), LogicRace.getInstance().getResY(), false);
         }
+
+        System.out.print("WIDTH:");
+        for(int i = 1; i < images[0].getWidth(); i++){
+            if(images[0].getPixel(i,images[0].getHeight()/2) != Color.TRANSPARENT )
+                System.out.print((i-1) + " - " );
+        }
     }
 
     @Override
@@ -98,7 +102,7 @@ public class RaceView extends View implements OnItemLongClickListener {
             int translation = LogicRace.getInstance().getRoadMove() % road.getHeight() + 1;
             Bitmap roadFill = Bitmap.createBitmap(road, 0, road.getHeight() - translation, road.getWidth(), translation);
             canvas.drawBitmap(roadFill, 0, 0, p);
-            roadFill = Bitmap.createBitmap(road, 0, 0, road.getWidth(), road.getHeight() - translation - 1);
+            roadFill = Bitmap.createBitmap(road, 0, 0, road.getWidth(), Math.max( road.getHeight() - translation - 1, 1 ));
             canvas.drawBitmap(roadFill, 0, translation, p);
 
 

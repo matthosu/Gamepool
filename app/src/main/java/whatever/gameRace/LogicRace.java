@@ -11,8 +11,8 @@ public class LogicRace {
     private final static Random rand = new Random();
     private static final LogicRace instance = new LogicRace();
 
-    private final static int RESOLUTION_X = (int) (280 * 3);
-    private final static int RESOLUTION_Y = (int) (280 * 3);
+    private final static int RESOLUTION_X = (int) (280 * 3.8);
+    private final static int RESOLUTION_Y = (int) (280 * 3.8);
     private int NUM_OF_LANES = 3;
     private int CAR_WIDTH = (RESOLUTION_X - 30) / NUM_OF_LANES;
     private int CAR_HEIGHT = (int) (CAR_WIDTH * 1.5);
@@ -55,7 +55,6 @@ public class LogicRace {
         startTime = System.nanoTime();
         score = 0;
         roadMove = 0;
-        System.out.println("##################************ " + startTime / 1000000000 + "*************#################");
     }
 
     private synchronized boolean addObstacle() {
@@ -209,8 +208,8 @@ public class LogicRace {
             NUM_OF_LANES = num;
             CAR_WIDTH = (RESOLUTION_X - 30) / NUM_OF_LANES;
             CAR_HEIGHT = (int) (CAR_WIDTH * 1.5);
-            Car.INLET_X = (int) (0.1 * CAR_WIDTH);
-            Car.INLET_Y = (int) (0.1 * CAR_HEIGHT);
+            Car.INLET_X = (int) (0.127 * CAR_WIDTH);
+            Car.INLET_Y = (int) (0.082 * CAR_HEIGHT);
         }
     }
 
