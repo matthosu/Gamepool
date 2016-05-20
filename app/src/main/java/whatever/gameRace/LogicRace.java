@@ -13,11 +13,12 @@ public class LogicRace {
 
     private final static int RESOLUTION_X = (int) (280 * 3.8);
     private final static int RESOLUTION_Y = (int) (280 * 3.8);
+    private final static int SIDEROAD_WIDTH = 15;
     private int NUM_OF_LANES = 3;
     private int CAR_WIDTH = (RESOLUTION_X - 30) / NUM_OF_LANES;
     private int CAR_HEIGHT = (int) (CAR_WIDTH * 1.5);
     private float SPEED = 0.02f;
-    private float SPAWN_FACTOR = 0.001f;
+    private float SPAWN_FACTOR = 0.002f;
 
     private static int bestScore = 0;
     private long startTime;
@@ -26,6 +27,8 @@ public class LogicRace {
     private int roadMove;
     private int playerRL = 0;
     private int score;
+    private boolean[] isLaneTaken;
+    private boolean [] lanesSecondRowTaken;
 
     public int getRoadMove() {
         return roadMove;
@@ -51,54 +54,75 @@ public class LogicRace {
         obstacles = new LinkedList<>();
         player = new Car(RESOLUTION_X / 2 - CAR_WIDTH / 2, RESOLUTION_Y - CAR_HEIGHT - 5,
                 CAR_WIDTH, CAR_HEIGHT);
+        isLaneTaken = new boolean[NUM_OF_LANES];
+        lanesSecondRowTaken = new boolean[NUM_OF_LANES];
+
         addObstacle();
         startTime = System.nanoTime();
         score = 0;
         roadMove = 0;
+
     }
 
     private synchronized boolean addObstacle() {
-        boolean[] isLaneTaken = new boolean[NUM_OF_LANES];
-        boolean [] lanesSecondRowTaken = new boolean[NUM_OF_LANES];
-
-        //boolean[] freeLanes = getFreeLanes();
-        /*int i = 0;
+        boolean[] freeLanes = getFreeLanes();
+        System.out.print("FREE LANEs: |");
+        for(int i = 0; i < freeLanes.length; i++){
+            System.out.print(freeLanes[i]?(i+" | ") : "" );
+        }
+        System.out.println();
+        int i = 0;
         int lane = rand.nextInt(NUM_OF_LANES);
         while (i < NUM_OF_LANES && !freeLanes[lane]) {
             lane = (lane + 1) % NUM_OF_LANES;
             i++;
         }
-        if (freeLanes[lane] && willLeaveWayOut(lane)) */
-        boolean willAdd = false;
+        if (freeLanes[lane] && willLeaveWayOut(lane))
+
+        /*boolean willAdd = false;
         for(Car obs:obstacles){
             if (obs.getPosY() > CAR_HEIGHT) break;
-            if(obs.getPosY() < -(CAR_HEIGHT/2)){
-                isLaneTaken[(obs.getPosX()-15)%CAR_WIDTH] = true;
-            }else if(obs.getPosY() < CAR_HEIGHT/2)
+            if(obs.getPosY() < 0){
+                isLaneTaken[(obs.getPosX()-SIDEROAD_WIDTH)%CAR_WIDTH] = true;
+            }else if(obs.getPosY() < (CAR_HEIGHT/3*2))
             {
-                isLaneTaken[(obs.getPosX()-15)%CAR_WIDTH] = true;
-                lanesSecondRowTaken[(obs.getPosX()-15)%CAR_WIDTH] = true;
+                isLaneTaken[(obs.getPosX()-SIDEROAD_WIDTH)%CAR_WIDTH] = true;
+                lanesSecondRowTaken[(obs.getPosX()-SIDEROAD_WIDTH)%CAR_WIDTH] = true;
             }else{
-                lanesSecondRowTaken[(obs.getPosX()-15)%CAR_WIDTH] = true;
+                lanesSecondRowTaken[(obs.getPosX()-SIDEROAD_WIDTH)%CAR_WIDTH] = true;
             }
 
         }
         ArrayList<Integer>lanesToAdd = new ArrayList<>();
         for(int i = 0; i < NUM_OF_LANES; i++)
         {
-            if(!isLaneTaken[i] && !lanesSecondRowTaken[i])
+            if(!isLaneTaken[i] || !lanesSecondRowTaken[i])
             {
                 lanesToAdd.add(i);
             }
+        }
+
+        System.out.print("\nDEBKWIA ");
+        for (Integer i: lanesToAdd) {
+            System.out.print(i + " ");
+
         }
         int lane = -1;
         if(lanesToAdd.size() > 1)
         {
             willAdd = true;
-            lane = lanesToAdd.get((int)Math.random()*lanesToAdd.size());
+            lane = lanesToAdd.get((int) Math.floor(Math.random()*(lanesToAdd.size())));
+
         }
+
+        isLaneTaken = new boolean[NUM_OF_LANES];
+        lanesSecondRowTaken = new boolean[NUM_OF_LANES];
+
         if(willAdd){
-            obstacles.add(new Car(15 + lane * CAR_WIDTH, -CAR_HEIGHT, CAR_WIDTH, CAR_HEIGHT));
+            System.out.print("\nDEBKWIA ");
+            System.out.print(lane);
+
+         */{   obstacles.add(new Car(SIDEROAD_WIDTH + lane * CAR_WIDTH, -CAR_HEIGHT, CAR_WIDTH, CAR_HEIGHT));
             return true;
         } else {
             return false;
@@ -106,14 +130,13 @@ public class LogicRace {
     }
 
     private boolean willLeaveWayOut(int lane) {
-        int playerLane = (player.getPosX() - 15 + (int) (CAR_WIDTH * 0.2)) / CAR_WIDTH;
+        int playerLane = (player.getPosX() - SIDEROAD_WIDTH ) / CAR_WIDTH;
         if (lane >= playerLane - 1 && lane <= playerLane + 1) {
             int waysOut = 3;
-            if (playerLane == NUM_OF_LANES - 1 || playerLane == 0) waysOut--;
             if (!laneAvailable(playerLane - 1)) waysOut--;
             if (!laneAvailable(playerLane)) waysOut--;
             if (!laneAvailable(playerLane + 1)) waysOut--;
-            return waysOut >= 2;
+            return waysOut > 1;
         } else return laneAvailable(lane);
 
     }
@@ -122,15 +145,15 @@ public class LogicRace {
         boolean[] freeLanes = new boolean[NUM_OF_LANES];
         for (int i = 0; i < freeLanes.length; i++) freeLanes[i] = true;
         for (int i = 0; i < obstacles.size() && i <= NUM_OF_LANES; i++) {
-            if (obstacles.get(obstacles.size() - i - 1).getPosY() < CAR_HEIGHT * 3)
-                freeLanes[(obstacles.get(obstacles.size() - i - 1).getPosX() - 15) / getCarWidth()] = false;
+                freeLanes[(obstacles.get(obstacles.size() - i - 1).getPosX() - SIDEROAD_WIDTH) / getCarWidth()] = false;
         }
         return freeLanes;
     }
 
     private boolean laneAvailable(int lane) {
+        if(lane < 0 || lane >= NUM_OF_LANES) return false;
         for (Car c : obstacles) {
-            if (c.getPosY() < CAR_HEIGHT * 3 && (c.getPosX() - 15) / NUM_OF_LANES == lane)
+            if (c.getPosY() < CAR_HEIGHT * 3 && (c.getPosX() - SIDEROAD_WIDTH) / NUM_OF_LANES == lane)
                 return false;
         }
         return true;
@@ -142,19 +165,20 @@ public class LogicRace {
             playerRL = (int) Math.signum(Math.round(playerMove * 100000) / 100000);
             if (rand.nextDouble() < SPAWN_FACTOR * NUM_OF_LANES || obstacles.size() <= 1)
                 addObstacle();
-            if (player.getPosX() + playerMove < 15) {
-                player.setPosX(15);
-            } else if (player.getPosX() + playerMove > RESOLUTION_X - CAR_WIDTH - 15) {
-                player.setPosX(RESOLUTION_X - CAR_WIDTH - 15);
+
+            if (player.getPosX() + playerMove < SIDEROAD_WIDTH) {
+                player.setPosX(SIDEROAD_WIDTH);
+            } else if (player.getPosX() + playerMove > RESOLUTION_X - CAR_WIDTH - SIDEROAD_WIDTH) {
+                player.setPosX(RESOLUTION_X - CAR_WIDTH - SIDEROAD_WIDTH);
             } else {
                 player.setPosX((int) (player.getPosX() + playerMove));
             }
 
             for (Iterator<Car> carIterator = obstacles.iterator(); carIterator.hasNext(); ) {
                 Car c = carIterator.next();
-                if(isSpeed) c.moveDown((int) (5 + elapsedTime * SPEED));
+                if(!isSpeed) c.moveDown((int) (5 + elapsedTime * SPEED));
                 else{
-                    c.moveDown((int) (15 + elapsedTime * SPEED));
+                    c.moveDown((int) (SIDEROAD_WIDTH + elapsedTime * SPEED));
                 }
                 if (player.checkCollision(c)) return false;
                 if (c.getPosY() > RESOLUTION_Y) carIterator.remove();

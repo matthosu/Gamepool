@@ -81,27 +81,26 @@ public class Car {
         }*/
 
        //  Top Right corner collision
-        if(other.posX > posX && other.posY < posY){
+        if(other.posX >= posX && other.posY < posY){
             int i = (width - (other.posX - posX))/2;
             int j = (height - (posY - other.posY))/2;
-            System.out.println("DEBUG:" + String.valueOf( imgs[0].getPixel(i + other.posX - posX, j)) + " - " + imgs[0].getPixel(i + other.posX - posX, j) );
             imgs[0].getPixel(i + other.posX - posX, j);
             if(imgs[0].getPixel(i + other.posX - posX, j) != Color.TRANSPARENT
                     && imgs[0].getPixel(i + other.posX - posX, j) != Color.TRANSPARENT)
             return true;
-        } else if(other.posX < posX && other.posY < posY){ // Top Left corner collision
+        } else if(other.posX <= posX && other.posY < posY){ // Top Left corner collision
             int i = (width - (posX - other.posX))/2;
             int j = (height - (posY - other.posY))/2;
             if(imgs[0].getPixel(i, j) != Color.TRANSPARENT
                     && other.imgs[0].getPixel(  (posX - other.posX) + i, ( posY - other.posY) + j ) != Color.TRANSPARENT)
                 return true;
-        } else if(other.posX > posX && other.posY > posY){ // Bottom Right corner collision
+        } else if(other.posX >= posX && other.posY > posY){ // Bottom Right corner collision
             int i = (width - (other.posX - posX))/2;
             int j = (height - (other.posY - posY))/2;
             if(imgs[0].getPixel((other.posX - posX) + i, (other.posY - posY) + j) != Color.TRANSPARENT
                     && other.imgs[0].getPixel( i, j ) != Color.TRANSPARENT)
                 return true;
-        } else if(other.posX < posX && other.posY > posY){ // Bottom Left corner collision
+        } else if(other.posX <= posX && other.posY > posY){ // Bottom Left corner collision
             int i = (width - (posX - other.posX))/2;
             int j = (height - (other.posY - posY))/2;
             if(imgs[0].getPixel( i, (other.posY - posY) + j ) != Color.TRANSPARENT
