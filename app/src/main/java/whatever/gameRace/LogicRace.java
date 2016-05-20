@@ -104,7 +104,7 @@ public class LogicRace {
         return true;
     }
 
-    public boolean move(double playerMove) {
+    public boolean move(double playerMove, boolean isSpeed) {
         int elapsedTime = (int) ((System.nanoTime() - startTime) / 1000000000);
         if (elapsedTime > 1) {
             playerRL = (int) Math.signum(Math.round(playerMove * 100000) / 100000);
@@ -120,12 +120,14 @@ public class LogicRace {
 
             for (Iterator<Car> carIterator = obstacles.iterator(); carIterator.hasNext(); ) {
                 Car c = carIterator.next();
-                c.moveDown((int) (5 + elapsedTime * SPEED));
+                if(isSpeed) c.moveDown((int) (5 + elapsedTime * SPEED));
+                else{
+                    c.moveDown((int) (15 + elapsedTime * SPEED));
+                }
                 if (player.checkCollision(c)) return false;
                 if (c.getPosY() > RESOLUTION_Y) carIterator.remove();
             }
             roadMove += (int) (5 + 2 * elapsedTime * SPEED);
-            score = elapsedTime;
             if (elapsedTime > bestScore) bestScore = elapsedTime;
         }
 

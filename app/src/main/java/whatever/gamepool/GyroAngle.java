@@ -10,6 +10,7 @@ public class GyroAngle implements SensorEventListener {   // need to be register
     private SensorManager hSensManager;
     private final int MOVEMENT_VALUE = 3;
     private long lastChange;
+    private double startingAngleY;
 
     public GyroAngle() {
         lastChange = System.nanoTime();
@@ -23,7 +24,7 @@ public class GyroAngle implements SensorEventListener {   // need to be register
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getStringType().equals(event.sensor.STRING_TYPE_ORIENTATION)) {
-            mListener.onEvent(new RotationEvent(this, -event.values[2]));
+            mListener.onEvent(new RotationEvent(this, -event.values[2], false));
         }
     }
 

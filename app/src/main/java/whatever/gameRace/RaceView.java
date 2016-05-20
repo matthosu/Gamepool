@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 
 import java.util.LinkedList;
 
@@ -15,15 +17,17 @@ import whatever.gamepool.R;
 /**
  * TODO: document your custom view class.
  */
-public class RaceView extends View {
+public class RaceView extends View implements OnItemLongClickListener {
     private final static boolean ANIMATE_ROAD = true;
     private Bitmap[] images;
     private Bitmap road;
     Paint p;
     private int i, playerImgID;
+    public boolean isClicked;
 
     public RaceView(Context context, AttributeSet attrs, int playerId) {
         super(context, attrs);
+        isClicked = false;
         p = new Paint();
         i = 0;
         playerImgID = playerId * 3;
@@ -133,5 +137,11 @@ public class RaceView extends View {
             }
             canvas.drawBitmap(obst.getDefaultImg(), obst.getPosX(), obst.getPosY(), p);
         }
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        isClicked = true;
+        return false;
     }
 }

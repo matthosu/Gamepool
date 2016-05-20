@@ -41,7 +41,8 @@ public class GameRaceActivity extends Activity implements RotationListener {
     }
 
     public void onEvent(RotationEvent e) {
-        if (!LogicRace.getInstance().move(e.getDirectionY())) {
+        if (!LogicRace.getInstance().move(e.getDirectionY(), rw.isClicked)) {
+            rw.isClicked = false;
             finish();
         } else {
             rw.invalidate();
