@@ -59,6 +59,7 @@ public class GameRaceActivity extends Activity implements RotationListener {
         display.getSize(size);
         int width = size.x;
         int height = size.y;
+
         //findViewById(R.id.score_layout).getLayoutParams().height = height - width;
         if (findViewById(R.id.score_layout) == null) Toast.makeText(this, null, Toast.LENGTH_SHORT).show();
         else Toast.makeText(this, Integer.toString(R.id.score_layout), Toast.LENGTH_SHORT).show();
