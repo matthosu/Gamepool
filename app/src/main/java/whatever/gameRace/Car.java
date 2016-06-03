@@ -15,6 +15,10 @@ public class Car {
     // Car image
     private Bitmap[] imgs = null;
 
+    public void setInlets(){
+        INLET_X = (int)(0.1 * width);
+        INLET_Y = (int) (0.1 * height);
+    }
     public Car(int posX, int posY, int width, int height, Bitmap[] imgs) {
         this.posX = posX;
         this.posY = posY;
@@ -52,6 +56,9 @@ public class Car {
     }
 
     public boolean checkCollisionFast(Car other) {
+        System.out.println("################## player:" + posX + ", " + posY  + ";  car2:" + other.posX + ", " + other.posY + ";  w&h:" + width + ", " + height);
+
+        if(other.posY < 0) return false;
         // NO collision - other car on in front of this
         if (other.posY + other.height - Car.INLET_Y < posY + Car.INLET_Y) return false;
         // NO collision - other car behind this
@@ -79,6 +86,8 @@ public class Car {
                     return true;
             }
         }*/
+
+        System.out.println("################## car1:" + posX + ", " + posY  + ";  car2:" + other.posX + ", " + other.posY + ";  w&h:" + width + ", " + height);
 
        //  Top Right corner collision
         if(other.posX >= posX && other.posY < posY){

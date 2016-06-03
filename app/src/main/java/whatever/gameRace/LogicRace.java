@@ -1,5 +1,7 @@
 package whatever.gameRace;
 
+import android.graphics.Point;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -11,12 +13,12 @@ public class LogicRace {
     private final static Random rand = new Random();
     private static final LogicRace instance = new LogicRace();
     public boolean isSpeededUp;
-    private final static int RESOLUTION_X = (int) (280 * 3.8);
-    private final static int RESOLUTION_Y = (int) (280 * 3.8);
-    private final static int SIDEROAD_WIDTH = 15;
-    private int NUM_OF_LANES = 3;
-    private int CAR_WIDTH = (RESOLUTION_X - 30) / NUM_OF_LANES;
-    private int CAR_HEIGHT = (int) (CAR_WIDTH * 1.5);
+    private static int RESOLUTION_X = (int) (280 * 3.8);
+    private static int RESOLUTION_Y = (int) (280 * 3.8);
+    private static int SIDEROAD_WIDTH = 15;
+    private static int NUM_OF_LANES = 3;
+    private static int CAR_WIDTH = (RESOLUTION_X - 30) / NUM_OF_LANES;
+    private static int CAR_HEIGHT = (int) (CAR_WIDTH * 1.5);
     private float SPEED = 0.02f;
     private float SPAWN_FACTOR = 0.01f;
 
@@ -28,7 +30,7 @@ public class LogicRace {
     private int playerRL = 0;
     private int score;
     private boolean[] isLaneTaken;
-    private boolean [] lanesSecondRowTaken;
+    private boolean[] lanesSecondRowTaken;
 
     public int getRoadMove() {
         return roadMove;
@@ -52,6 +54,8 @@ public class LogicRace {
 
     private void initialize() {
         obstacles = new LinkedList<>();
+
+        System.out.println("******************** " + RESOLUTION_X + ", " + RESOLUTION_Y );
         player = new Car(RESOLUTION_X / 2 - CAR_WIDTH / 2, RESOLUTION_Y - CAR_HEIGHT - 5,
                 CAR_WIDTH, CAR_HEIGHT);
         isLaneTaken = new boolean[NUM_OF_LANES];
@@ -68,11 +72,11 @@ public class LogicRace {
         boolean[] freeLanes = getFreeLanes();
         System.out.print("FREE LANEs: |");
         boolean anyLaneAvailable = false;
-        for(int i = 0; i < freeLanes.length; i++){
-            System.out.print(freeLanes[i]?(i+" | ") : "" );
-            if(freeLanes[i]) anyLaneAvailable = true;
+        for (int i = 0; i < freeLanes.length; i++) {
+            System.out.print(freeLanes[i] ? (i + " | ") : "");
+            if (freeLanes[i]) anyLaneAvailable = true;
         }
-        if(!anyLaneAvailable) return false;
+        if (!anyLaneAvailable) return false;
         System.out.println();
 
         int i = 0;
@@ -81,7 +85,7 @@ public class LogicRace {
             lane = (lane + 1) % NUM_OF_LANES;
             i++;
         }
-        System.out.println("Trying to add on lane no. : " + lane + " which is " + (willLeaveWayOut(lane)?"free":"taken") );
+        System.out.println("Trying to add on lane no. : " + lane + " which is " + (willLeaveWayOut(lane) ? "free" : "taken"));
 
         if (freeLanes[lane] && willLeaveWayOut(lane))
 
@@ -128,7 +132,8 @@ public class LogicRace {
             System.out.print("\nDEBKWIA ");
             System.out.print(lane);
 
-         */{   obstacles.add(new Car(SIDEROAD_WIDTH + lane * CAR_WIDTH, -CAR_HEIGHT, CAR_WIDTH, CAR_HEIGHT));
+         */ {
+            obstacles.add(new Car(SIDEROAD_WIDTH + lane * CAR_WIDTH, -CAR_HEIGHT, CAR_WIDTH, CAR_HEIGHT));
             return true;
         } else {
             return false;
@@ -137,7 +142,7 @@ public class LogicRace {
 
     private boolean willLeaveWayOut(int lane) {
         System.out.println("WESZło0");
-        int playerLane = (int) ((player.getPosX() - SIDEROAD_WIDTH + 0.2*CAR_WIDTH) / CAR_WIDTH);
+        int playerLane = (int) ((player.getPosX() - SIDEROAD_WIDTH + 0.2 * CAR_WIDTH) / CAR_WIDTH);
         System.out.println("WESZło1");
         if (lane >= playerLane - 1 && lane <= playerLane + 1) {
             System.out.println("samochód na pozycji : " + playerLane);
@@ -165,22 +170,23 @@ public class LogicRace {
         boolean[] freeLanes = new boolean[NUM_OF_LANES];
         for (int i = 0; i < freeLanes.length; i++) freeLanes[i] = true;
         for (int i = 0; i < obstacles.size() && i <= NUM_OF_LANES; i++) {
-            if(obstacles.get(obstacles.size() - i - 1).getPosY() < CAR_HEIGHT)
+            if (obstacles.get(obstacles.size() - i - 1).getPosY() < CAR_HEIGHT)
                 freeLanes[(obstacles.get(obstacles.size() - i - 1).getPosX() - SIDEROAD_WIDTH) / getCarWidth()] = false;
         }
         return freeLanes;
     }
 
     private boolean laneAvailable(int lane) {
-        if(lane < 0 || lane >= NUM_OF_LANES) return false;
+        if (lane < 0 || lane >= NUM_OF_LANES) return false;
         for (Car c : obstacles) {
             if (c.getPosY() < CAR_HEIGHT && (c.getPosX() - SIDEROAD_WIDTH) / CAR_WIDTH == lane)
                 return false;
         }
         return true;
     }
+
     private boolean laneAvailable2(int lane) {
-        if(lane < 0 || lane >= NUM_OF_LANES) return false;
+        if (lane < 0 || lane >= NUM_OF_LANES) return false;
         for (Car c : obstacles) {
             if (c.getPosY() < CAR_HEIGHT && (c.getPosX() - SIDEROAD_WIDTH) / CAR_WIDTH == lane)
                 return false;
@@ -205,8 +211,8 @@ public class LogicRace {
 
             for (Iterator<Car> carIterator = obstacles.iterator(); carIterator.hasNext(); ) {
                 Car c = carIterator.next();
-                if(!isSpeededUp) c.moveDown((int) (5 + elapsedTime * SPEED));
-                else{
+                if (!isSpeededUp) c.moveDown((int) (5 + elapsedTime * SPEED));
+                else {
                     c.moveDown((int) (15 + elapsedTime * SPEED));
                 }
                 if (player.checkCollision(c)) return player.getCollisionCenter(c);
@@ -216,7 +222,7 @@ public class LogicRace {
             if (elapsedTime > bestScore) bestScore = elapsedTime;
         }
 
-        return new int[]{-1,-1};
+        return new int[]{-1, -1};
     }
 
     public void restartGame() {
@@ -273,5 +279,15 @@ public class LogicRace {
 
     public int getScore() {
         return score;
+    }
+
+    public static void setRes(int res) {
+        RESOLUTION_X = res;
+        RESOLUTION_Y = res;
+
+        SIDEROAD_WIDTH = 15;
+        CAR_WIDTH = (RESOLUTION_X - 30) / NUM_OF_LANES;
+        CAR_HEIGHT = (int) (CAR_WIDTH * 1.5);
+
     }
 }

@@ -20,7 +20,7 @@ import whatever.gamepool.R;
 /**
  * TODO: document your custom view class.
  */
-public class RaceView extends View{
+public class RaceView extends View {
     private final static boolean ANIMATE_ROAD = true;
     private Bitmap[] images;
     private Bitmap road;
@@ -28,7 +28,7 @@ public class RaceView extends View{
     Paint p;
     private int i, playerImgID;
     public boolean isClicked;
-    public int[] boomPos = new int[]{-1,-1};
+    public int[] boomPos = new int[]{-1, -1};
 
     public RaceView(Context context, AttributeSet attrs, int playerId) {
         super(context, attrs);
@@ -94,9 +94,9 @@ public class RaceView extends View{
         boom = ((BitmapDrawable) context.getResources().getDrawable(R.drawable.boom)).getBitmap();
 
         System.out.print("WIDTH:");
-        for(int i = 1; i < images[0].getWidth(); i++){
-            if(images[0].getPixel(i,images[0].getHeight()/2) != Color.TRANSPARENT )
-                System.out.print((i-1) + " - " );
+        for (int i = 1; i < images[0].getWidth(); i++) {
+            if (images[0].getPixel(i, images[0].getHeight() / 2) != Color.TRANSPARENT)
+                System.out.print((i - 1) + " - ");
         }
     }
 
@@ -108,7 +108,7 @@ public class RaceView extends View{
             int translation = LogicRace.getInstance().getRoadMove() % road.getHeight() + 1;
             Bitmap roadFill = Bitmap.createBitmap(road, 0, road.getHeight() - translation, road.getWidth(), translation);
             canvas.drawBitmap(roadFill, 0, 0, p);
-            roadFill = Bitmap.createBitmap(road, 0, 0, road.getWidth(), Math.max( road.getHeight() - translation - 1, 1 ));
+            roadFill = Bitmap.createBitmap(road, 0, 0, road.getWidth(), Math.max(road.getHeight() - translation - 1, 1));
             canvas.drawBitmap(roadFill, 0, translation, p);
 
 
@@ -147,13 +147,13 @@ public class RaceView extends View{
             }
             canvas.drawBitmap(obst.getDefaultImg(), obst.getPosX(), obst.getPosY(), p);
         }
-        if(!Arrays.equals(boomPos, (new int[]{-1,-1}))){
-            canvas.drawBitmap(boom, boomPos[0] - boom.getWidth()/2, boomPos[1] - boom.getHeight()/2, p);
+        if (!Arrays.equals(boomPos, (new int[]{-1, -1}))) {
+            canvas.drawBitmap(boom, boomPos[0] - boom.getWidth() / 2, boomPos[1] - boom.getHeight() / 2, p);
         }
     }
 
 
-    public void boom( int[] pos ) {
+    public void boom(int[] pos) {
         boomPos = pos;
         invalidate();
     }

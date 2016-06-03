@@ -9,8 +9,10 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -26,16 +28,28 @@ public class GameRaceActivity extends Activity implements RotationListener {
     private SensorManager mSensorManager;
     private GyroAngle gyroInterpreter;
     private boolean isFinished = false;
+    private Point size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
-        rw = new RaceView(this, null, getIntent().getIntExtra("colorId", 0));
-        setContentView(rw);
-        displayScoreView();
+
+        Display display = getWindowManager().getDefaultDisplay();
+        size = new Point();
+        display.getSize(size);
+        LogicRace.getInstance().setRes(size.x);
+
+
+
+        setContentView(createView());
+
         rw.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                if (isFinished) {
+                    GameRaceActivity.this.finish();
+                    return false;
+                }
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     LogicRace.getInstance().isSpeededUp = true;
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -53,16 +67,19 @@ public class GameRaceActivity extends Activity implements RotationListener {
         this.mWakeLock.acquire();
     }
 
-    private void displayScoreView() {
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
+    private View createView() {
         int width = size.x;
         int height = size.y;
+        rw = new RaceView(this, null, getIntent().getIntExtra("colorId", 0));
 
-        //findViewById(R.id.score_layout).getLayoutParams().height = height - width;
-        if (findViewById(R.id.score_layout) == null) Toast.makeText(this, null, Toast.LENGTH_SHORT).show();
-        else Toast.makeText(this, Integer.toString(R.id.score_layout), Toast.LENGTH_SHORT).show();
+        LinearLayout myLayout = new LinearLayout(this);
+        myLayout.addView(rw);
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        View v = inflater.inflate(R.layout.race_score, null);
+
+        myLayout.addView(v);
+        return myLayout;
     }
 
     @Override
