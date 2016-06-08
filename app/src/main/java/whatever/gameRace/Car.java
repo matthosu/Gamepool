@@ -7,6 +7,7 @@ public class Car {
     // Car image inlet (blank space between image border and car)
     static int INLET_X = (int) (7 * 3.8);
     static int INLET_Y = (int) (8 * 3.8);
+    int speedFactor;
 
     // Car image top left corner position
     private int posX, posY;
@@ -15,16 +16,13 @@ public class Car {
     // Car image
     private Bitmap[] imgs = null;
 
-    public void setInlets(){
-        INLET_X = (int)(0.1 * width);
-        INLET_Y = (int) (0.1 * height);
-    }
     public Car(int posX, int posY, int width, int height, Bitmap[] imgs) {
         this.posX = posX;
         this.posY = posY;
         this.width = width;
         this.height = height;
         this.imgs = imgs;
+        this.speedFactor = 1; // (int)(Math.random()* 2) + 1;
     }
 
     public Car(int posX, int posY, int width, int height) {
@@ -52,7 +50,7 @@ public class Car {
     }
 
     public void moveDown(int translation) {
-        posY += translation;
+        posY += translation * speedFactor;
     }
 
     public boolean checkCollisionFast(Car other) {
@@ -163,5 +161,13 @@ public class Car {
                 return new int[]{posX + i, other.posY + j};
         }
         return new int[]{-1,-1};
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 }
