@@ -11,7 +11,6 @@ import android.os.PowerManager;
 import android.view.Display;
 import android.widget.GridLayout;
 
-import whatever.game2048.Logic2048;
 import whatever.gamepool.GyroRunner;
 import whatever.gamepool.R;
 
@@ -61,10 +60,8 @@ public class Game15Activity extends Activity {
     @Override
     public void onDestroy() {
         this.mWakeLock.release();
-        SharedPreferences.Editor editor = getSharedPreferences("prefs", MODE_PRIVATE).edit();
-        editor.putString("boardStr", Logic2048.getBoardParsedToString());
-        editor.putInt("score", Logic2048.getScore());
-        editor.putInt("maxScore", Logic2048.getMaxScore());
+        SharedPreferences.Editor editor = getSharedPreferences("prefs15", MODE_PRIVATE).edit();
+        editor.putString("boardStr", Logic15.getBoardParsedToString());
         editor.commit();
         super.onDestroy();
     }

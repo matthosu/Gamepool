@@ -40,6 +40,13 @@
         <activity android:name="whatever.gameRace.GameRaceActivity"
             android:label="Race play"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="whatever.Fifteen.Menu15Activity"
+            android:label="Menu 15"
+            android:screenOrientation="portrait" />
+        <activity android:name="whatever.Fifteen.Game15Activity"
+            android:label="Play 15"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
