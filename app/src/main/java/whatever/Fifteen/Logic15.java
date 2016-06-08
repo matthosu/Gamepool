@@ -1,6 +1,7 @@
 package whatever.Fifteen;
 
 import android.app.Activity;
+import android.util.Size;
 
 import java.util.Random;
 
@@ -12,7 +13,7 @@ import whatever.gamepool.MoveListener;
 /**
  * Created by Mateusz on 2016-06-08.
  */
-public class Logic15 implements MoveListener {
+public class Logic15 {
     private static final int SIZE = 4;
     private Displayer displayer;
     Game15Activity game;
@@ -48,23 +49,18 @@ public class Logic15 implements MoveListener {
 
     private static void fill()
     {
-        int j = 0;
         for(int i = 0; i < SIZE*SIZE; i++)
         {
-            board[i%SIZE][j] = i;
-            if(j == SIZE)
-            {
-                j = 0;
-            }
+            board[(int)i/SIZE][i%SIZE] = i;
         }
     }
     private void moveRandom(){
         boolean changed;
 
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i <SIZE*SIZE*SIZE; i++)
         {
             changed = false;
-            switch((int)Math.random() *4)
+            switch((int)(Math.random() * 4))
             {
                 case 0:
                     changed = moveUp();
@@ -79,13 +75,15 @@ public class Logic15 implements MoveListener {
                     changed = moveLeft();
                     break;
             }
+            if(!changed) System.out.println("miss");
+            else System.out.println(" pozostało: " + i);
             if(!changed){i--;}
         }
     }
 
 
     // To be replaced by event listener
-    public void onEvent(MoveEvent d) {
+    public boolean onEvent(MoveEvent d) {
         boolean changed = false;
         switch (d.getDirection()) {
             case UP:
@@ -110,80 +108,72 @@ public class Logic15 implements MoveListener {
                 break;
         }
 
-        if (checkIfFinished()) {
-            resetGame();
-        }
         displayer.setDisplay(board);
+
+        if (checkIfFinished()) {
+            return true;
+        }
+        return false;
     }
 
     private static boolean moveRight() {
-        boolean changed = false;
         for (int i = 0; i < SIZE; i++) {  // for each row
-            for(int j = 0; i < SIZE; i++)
+            for(int j = 1; j < SIZE; j++)
             {
-                if(board[i][j] == SIZE -1)
+                if(board[i][j] == SIZE*SIZE -1)
                 {
-                    if(i > 0){
-                        board[i][j] = board[i-1][j];
-                        board[i-1][j] = SIZE -1;
-                        changed = true;
-                    }
+                        board[i][j] = board[i][j-1];
+                        board[i][j-1] = SIZE*SIZE -1;
+                        return true;
                 }
             }
         }
-        return changed;
+        return false;
     }
 
     private boolean moveLeft() {
-        boolean changed = false;
-        for (int i = 0; i < SIZE-1; i++) {  // for each row
-            for(int j = 0; i < SIZE; i++)
-            {
-                if(board[i][j] == SIZE -1)
-                {
-                    board[i][j] = board[i+1][j];
-                    board[i+1][j] = SIZE -1;
-                    changed = true;
-
-                }
-            }
-        }
-        return changed;
-    }
-
-    private boolean moveUp() {
-        boolean changed = false;
         for (int i = 0; i < SIZE; i++) {  // for each row
-            for(int j = 0; i < SIZE; i++)
+            for(int j = 0; j < SIZE-1; j++)
             {
-                if(board[i][j] == SIZE -1)
+                if(board[i][j] == SIZE*SIZE -1)
                 {
-                    if(j > 0){
-                        board[i][j] = board[i][j-1];
-                        board[i][j-1] = SIZE -1;
-                        changed = true;
-                    }
+                    board[i][j] = board[i][j+1];
+                    board[i][j+1] = SIZE*SIZE -1;
+                    return true;
                 }
             }
         }
-        return changed;
+        return false;
     }
 
     private boolean moveDown() {
-        boolean changed = false;
-        for (int i = 0; i < SIZE; i++) {  // for each row
-            for(int j = 0; i < SIZE-1; i++)
+        for (int i = 1; i < SIZE; i++) {  // for each row
+            for(int j = 0; j < SIZE; j++)
             {
-                if(board[i][j] == SIZE -1)
+                if(board[i][j] == SIZE*SIZE -1)
                 {
-                    board[i][j] = board[i+1][j];
-                    board[i+1][j] = SIZE -1;
-                    changed = true;
-
+                        board[i][j] = board[i-1][j];
+                        board[i-1][j] = SIZE*SIZE -1;
+                        return true;
                 }
             }
         }
-        return changed;
+        return false;
+    }
+
+    private boolean moveUp() {
+        for (int i = 0; i < SIZE-1; i++) {  // for each row
+            for(int j = 0; j < SIZE; j++)
+            {
+                if(board[i][j] == SIZE*SIZE -1)
+                {
+                    board[i][j] = board[i+1][j];
+                    board[i+1][j] = SIZE*SIZE -1;
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static void loadState(String boardStr) {

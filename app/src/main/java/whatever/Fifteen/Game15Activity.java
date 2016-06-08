@@ -10,11 +10,18 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.view.Display;
 import android.widget.GridLayout;
+import android.widget.Toast;
+
+import java.util.Arrays;
 
 import whatever.gamepool.GyroRunner;
+import whatever.gamepool.MoveEvent;
+import whatever.gamepool.MoveListener;
 import whatever.gamepool.R;
+import whatever.gamepool.RotationEvent;
+import whatever.gamepool.RotationListener;
 
-public class Game15Activity extends Activity {
+public class Game15Activity extends Activity  implements MoveListener {
 
     private SensorManager mSensorManager;
     private GyroRunner mSensorListener;
@@ -33,7 +40,7 @@ public class Game15Activity extends Activity {
         GridLayout mContainerView = (GridLayout) findViewById(R.id.container);
         mContainerView.setBackgroundResource(R.drawable.background);
         GameLogic = new Logic15(this);
-        mSensorListener = new GyroRunner(GameLogic);
+        mSensorListener = new GyroRunner(this);
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), SensorManager.SENSOR_DELAY_GAME);
         //Obiekt GameLogic obsługuje wyświetlanie, jest listenerem który dostaje wiadomości od mSensorListener (kiedy się poruszyć)
@@ -72,5 +79,13 @@ public class Game15Activity extends Activity {
         display.getSize(size);
         width = size.x;
         height = size.y;
+    }
+
+    @Override
+    public void onEvent(MoveEvent e) {
+        if (GameLogic.onEvent(e)) {
+            mSensorManager.unregisterListener(mSensorListener);
+            Toast.makeText(this, "GAME OVER. YOU WON", Toast.LENGTH_LONG).show();
+        }
     }
 }

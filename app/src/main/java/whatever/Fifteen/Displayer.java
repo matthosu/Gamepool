@@ -46,37 +46,37 @@ public class Displayer { //klasa odpowiedzialna za podstawianie obrazkow do Logi
     private int getDrawableId(int id) { //metoda zwracajaca R.drawable w zaleznosci od wartosci w tablicy Logic2048
         switch (id) {
             case 0:
-                return R.drawable.board;
-            case 1:
                 return R.drawable.pic_2;
-            case 2:
+            case 1:
                 return R.drawable.pic_4;
-            case 3:
+            case 2:
                 return R.drawable.pic_8;
-            case 4:
+            case 3:
                 return R.drawable.pic_16;
-            case 5:
+            case 4:
                 return R.drawable.pic_32;
-            case 6:
+            case 5:
                 return R.drawable.pic_64;
-            case 7:
+            case 6:
                 return R.drawable.pic_128;
-            case 8:
+            case 7:
                 return R.drawable.pic_256;
-            case 9:
+            case 8:
                 return R.drawable.pic_512;
-            case 10:
+            case 9:
                 return R.drawable.pic_1024;
-            case 11:
+            case 10:
                 return R.drawable.pic_2048;
-            case 12:
+            case 11:
                 return R.drawable.pic_4096;
-            case 13:
+            case 12:
                 return R.drawable.pic_8192;
-            case 14:
+            case 13:
                 return R.drawable.pic_16384;
+            case 14:
+                return R.drawable.board;
             default:
-                return R.drawable.background;
+                return R.drawable.boom;
             //jak cos pojdzie zle to dostaniemy wizualny blad - pole bedzie wygladac jak background
         }
     }
