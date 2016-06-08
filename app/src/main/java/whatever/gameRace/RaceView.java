@@ -145,12 +145,7 @@ public class RaceView extends View {
                 if (i == playerImgID) i = (i + 3) % images.length;
                 obst.setImgs(new Bitmap[]{images[i], images[i + 1], images[i + 2]});
             }
-            if(obst.getPosY() + obst.getHeight() > LogicRace.getInstance().getResY())
-                canvas.drawBitmap(
-                        Bitmap.createBitmap(obst.getDefaultImg(), 0,0,obst.getWidth(), Math.max(LogicRace.getInstance().getResY()-obst.getPosY(), 1)),
-                        obst.getPosX(), obst.getPosY(), p);
-            else
-                canvas.drawBitmap(obst.getDefaultImg(), obst.getPosX(), obst.getPosY(), p);
+            canvas.drawBitmap(obst.getDefaultImg(), obst.getPosX(), obst.getPosY(), p);
         }
         if (!Arrays.equals(boomPos, (new int[]{-1, -1}))) {
             canvas.drawBitmap(boom, boomPos[0] - boom.getWidth() / 2, boomPos[1] - boom.getHeight() / 2, p);

@@ -20,7 +20,7 @@ public class Menu15Activity extends Activity {
         setContentView(R.layout.activity_menu2048);
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         String boardStr = prefs.getString("boardStr", null);
-        final Intent openGameVew = new Intent(this, Menu15Activity.class);
+        final Intent openGameVew = new Intent(this, Game2048Activity.class);
 
         Button bRestartGame = (Button) findViewById(R.id.b2048_ResetGame);
         Button bBack = (Button) findViewById(R.id.b2048_Back);
