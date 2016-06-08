@@ -61,7 +61,7 @@ public class Logic15 implements MoveListener {
     private void moveRandom(){
         boolean changed;
 
-        for(int i = 0; i < SIZE*SIZE*70; i++)
+        for(int i = 0; i < 10; i++)
         {
             changed = false;
             switch((int)Math.random() *4)
