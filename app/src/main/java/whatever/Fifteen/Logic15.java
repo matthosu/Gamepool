@@ -4,8 +4,8 @@ import android.app.Activity;
 
 import java.util.Random;
 
-import whatever.game2048.Displayer;
-import whatever.game2048.Game2048Activity;
+import whatever.Fifteen.Displayer;
+import whatever.Fifteen.Game15Activity;
 import whatever.gamepool.MoveEvent;
 import whatever.gamepool.MoveListener;
 
@@ -23,6 +23,7 @@ public class Logic15 implements MoveListener {
     */
     private static int[][] board;
     private static Random rand = new Random();
+
     public Logic15(Activity a) {
         displayer = new Displayer(a, SIZE);
         game = (Game15Activity) a;
@@ -33,6 +34,10 @@ public class Logic15 implements MoveListener {
         displayer.setDisplay(board);
     }
 
+    public static void reset()
+    {
+        board = null;
+    }
     public void resetGame() {
         board = new int[SIZE][SIZE];
         fill();
@@ -111,7 +116,7 @@ public class Logic15 implements MoveListener {
         displayer.setDisplay(board);
     }
 
-    private boolean moveRight() {
+    private static boolean moveRight() {
         boolean changed = false;
         for (int i = 0; i < SIZE; i++) {  // for each row
             for(int j = 0; i < SIZE; i++)

@@ -19,32 +19,17 @@ public class Menu15Activity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu2048);
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-        int maxScore = prefs.getInt("maxScore", -1);
-        int score = prefs.getInt("score", -1);
         String boardStr = prefs.getString("boardStr", null);
-        if (maxScore != -1) {
-            Logic2048.loadState(score, boardStr, maxScore);
-        }
-
         final Intent openGameVew = new Intent(this, Game2048Activity.class);
 
         Button bRestartGame = (Button) findViewById(R.id.b2048_ResetGame);
-        Button bResetScore = (Button) findViewById(R.id.b2048_ResetScore);
         Button bBack = (Button) findViewById(R.id.b2048_Back);
 
         bRestartGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logic2048.resetGame();
-                updateScores();
+                Logic15.reset();
                 startActivity(openGameVew);
-            }
-        });
-        bResetScore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Logic2048.resetMaxScore();
-                updateScores();
             }
         });
         bBack.setOnClickListener(new View.OnClickListener() {
@@ -59,13 +44,6 @@ public class Menu15Activity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        updateScores();
     }
 
-    private void updateScores() {
-        TextView score = (TextView) findViewById(R.id.t2048_ScoreValue);
-        TextView maxScore = (TextView) findViewById(R.id.t2048_BestScoreValue);
-        score.setText(String.valueOf(Logic2048.getScore()));
-        maxScore.setText(String.valueOf(Logic2048.getMaxScore()));
-    }
 }
