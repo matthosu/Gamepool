@@ -44,7 +44,7 @@
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
         android:layout_alignTop="@+id/raceLinearLayout"
-        android:layout_alignEnd="@+id/race_ResetGame"
+        android:layout_alignEnd="@+id/race_StartGame"
         android:id="@+id/raceLinearLayout2">
 
         <TextView
@@ -71,28 +71,18 @@
         android:layout_height="wrap_content"
         android:text="@string/reset_score"
         android:textSize="12sp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignTop="@+id/race_StartGame"
+        android:layout_alignParentStart="true" />
 
     <Button
-        android:id="@+id/race_ResetGame"
+        android:id="@+id/race_StartGame"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/restart_game"
+        android:text="@string/start_game"
         android:textSize="12sp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
-
-    <Button
-        android:id="@+id/race_Back"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Back"
-        android:textSize="12sp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -122,18 +112,17 @@
         android:text="@string/select_level"
         android:id="@+id/race_difficultyLevel"
         android:textSize="30sp"
-        android:layout_above="@+id/race_ResetScore"
-        android:layout_alignStart="@+id/race_Back" />
+        android:layout_above="@+id/race_ResetScore" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:text="easy"
+        android:text="@string/easy"
         android:id="@+id/race_levelValue"
         android:layout_marginLeft="10dp"
         android:onClick="onLevelChanged"
-        android:layout_above="@+id/race_ResetGame"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/race_difficultyLevel" />
 
 </RelativeLayout>

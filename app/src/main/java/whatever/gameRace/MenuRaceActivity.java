@@ -44,7 +44,7 @@ public class MenuRaceActivity extends Activity {
         openGameVew = new Intent(this, GameRaceActivity.class);
         openGameVew.putExtra("colorId", position_car);
 
-        Button rRestartGame = (Button) findViewById(R.id.race_ResetGame);
+        Button rRestartGame = (Button) findViewById(R.id.race_StartGame);
         Button rResetScore = (Button) findViewById(R.id.race_ResetScore);
         Button rBack = (Button) findViewById(R.id.race_Back);
 
