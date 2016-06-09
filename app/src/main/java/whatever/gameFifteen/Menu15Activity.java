@@ -17,21 +17,22 @@ import whatever.gamepool.R;
 public class Menu15Activity extends Activity {
     protected PowerManager.WakeLock mWakeLock;
     Intent openGameVew;
-    private final static int[] images = {R.drawable.yoda, R.drawable.car1, R.drawable.car2, R.drawable.car3,
-            R.drawable.car4, R.drawable.car5, R.drawable.car6, R.drawable.car7, R.drawable.car8, R.drawable.car9};
+    private final static int[] images = {R.drawable.yoda, R.drawable.lady, R.drawable.mist, R.drawable.lotr,
+            R.drawable.witcher, R.drawable.starry_night, R.drawable.car6, R.drawable.car7, R.drawable.car8, R.drawable.car9};
     ImageView imageSwitcher;
-    private int selectedImage = 0; //index in images - answer for: which one is selected?
+    private int selectedImage = -1; //index in images - answer for: which one is selected?
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu_race);
+        setContentView(R.layout.activity_menu_15);
 
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
         this.mWakeLock.acquire();
 
         imageSwitcher = (ImageView) findViewById(R.id.carImageView);
+        imageSwitcher.setScaleType(ImageView.ScaleType.FIT_CENTER);
         SharedPreferences prefs = getSharedPreferences("prefs15", MODE_PRIVATE);
         int maxScore = prefs.getInt("maxScore", -1);
         int score = prefs.getInt("score", -1);
@@ -39,7 +40,6 @@ public class Menu15Activity extends Activity {
             LogicRace.getInstance().loadState(score, maxScore);        }
 
         openGameVew = new Intent(this, Game15Activity.class);
-        openGameVew.putExtra("selectedImageIndex", selectedImage);
 
         Button rRestartGame = (Button) findViewById(R.id.race_StartGame);
         Button rResetScore = (Button) findViewById(R.id.race_ResetScore);
@@ -50,6 +50,7 @@ public class Menu15Activity extends Activity {
             public void onClick(View v) {
                 Logic15.reset();
                 updateScores();
+                openGameVew.putExtra("selectedImageIndex", selectedImage);
                 startActivity(openGameVew);
             }
         });
@@ -74,7 +75,6 @@ public class Menu15Activity extends Activity {
     public void onSwitch(View view) {
         selectedImage = (selectedImage + 1) % images.length;
         imageSwitcher.setImageResource(images[selectedImage]);
-        openGameVew.putExtra("selectedImageIndex", selectedImage);
     }
 
     @Override

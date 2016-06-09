@@ -7,7 +7,7 @@
 
     <GridLayout
         android:id="@+id/container"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="800px"
         android:columnCount="4"
         android:rowCount="4">

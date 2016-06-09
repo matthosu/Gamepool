@@ -82,6 +82,7 @@ public class Game15Activity extends Activity  implements MoveListener {
     @Override
     protected void onResume() {
         super.onResume();
+        mSensorListener = new GyroRunner(this);
         mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), SensorManager.SENSOR_DELAY_GAME);
     }
 
@@ -94,6 +95,7 @@ public class Game15Activity extends Activity  implements MoveListener {
     @Override
     public void onDestroy() {
         this.mWakeLock.release();
+        mSensorManager.unregisterListener(mSensorListener);
         SharedPreferences.Editor editor = getSharedPreferences("prefs15", MODE_PRIVATE).edit();
         editor.putString("boardStr", Logic15.getBoardParsedToString());
         editor.commit();

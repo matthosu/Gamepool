@@ -28,8 +28,8 @@ public class Displayer { //klasa odpowiedzialna za podstawianie obrazkow do Logi
 
     }
     public void setImg(Bitmap img){
-        img = Bitmap.createScaledBitmap(img, activity.width, activity.width, true);
-        img = addBodrer(img, (int) (img.getWidth() * 0.02), Color.RED);
+        //img = Bitmap.createScaledBitmap(img, activity.width, activity.width, true);
+        img = addBodrerPreserveRatio(img, (int) (img.getWidth() * 0.02), Color.DKGRAY);
         img = Bitmap.createScaledBitmap(img, activity.width, activity.width, true);
         tiles = sliceImg(img,4,4);
     }
@@ -42,13 +42,26 @@ public class Displayer { //klasa odpowiedzialna za podstawianie obrazkow do Logi
         return bmpWithBorder;
     }
 
+    private Bitmap addBodrerPreserveRatio(Bitmap bmp, int borderSize, int c) {
+        int size = Math.max(bmp.getWidth(), bmp.getHeight());
+        int lowerDimension =  Math.min(bmp.getWidth(), bmp.getHeight());
+        Bitmap bmpWithBorder = Bitmap.createBitmap(size + borderSize * 2, size + borderSize * 2, bmp.getConfig());
+        Canvas canvas = new Canvas(bmpWithBorder);
+        canvas.drawColor(c);
+        if(bmp.getWidth() > bmp.getHeight()){
+            canvas.drawBitmap(bmp, borderSize, size/2 -lowerDimension/2,  null);
+        } else {
+            canvas.drawBitmap(bmp, size/2 -lowerDimension/2 , borderSize, null);
+        }
+        return bmpWithBorder;
+    }
+
     private Bitmap[] sliceImg(Bitmap img, int x, int y) {
         Bitmap[] res = new Bitmap[x*y];
 
         for(int i = 0; i < x ; i++){
             for(int j = 0; j < y ; j++){
-                System.out.println(j*(img.getHeight()-1)/y + (j+1) * (img.getHeight()-1)/y +  " < " + (img.getHeight()-1) );
-                res [i*4 + j] = Bitmap.createBitmap(img, i*(img.getWidth()-1)/x, j*(img.getHeight()-1)/y,
+                res [i*4 + j] = Bitmap.createBitmap(img, i*(img.getWidth())/x, j*(img.getHeight())/y,
                         (img.getWidth()-1)/x, (img.getHeight()-1)/y);
             }
         }
