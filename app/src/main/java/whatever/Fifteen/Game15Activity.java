@@ -3,32 +3,33 @@ package whatever.Fifteen;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.view.Display;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.GridLayout;
 import android.widget.Toast;
-
-import java.util.Arrays;
 
 import whatever.gamepool.GyroRunner;
 import whatever.gamepool.MoveEvent;
 import whatever.gamepool.MoveListener;
 import whatever.gamepool.R;
-import whatever.gamepool.RotationEvent;
-import whatever.gamepool.RotationListener;
 
 public class Game15Activity extends Activity  implements MoveListener {
-
     private SensorManager mSensorManager;
     private GyroRunner mSensorListener;
     protected PowerManager.WakeLock mWakeLock;
-    public static Logic15 GameLogic;
+    private Displayer displayer;
     public int width;
     public int height;
+    boolean isFinished;
+    View container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,17 @@ public class Game15Activity extends Activity  implements MoveListener {
 
         initialize();
 
+        int SIZE = 4;
+        Bitmap bmp = BitmapFactory.decodeResource( getResources(),
+                Menu15Activity.getImageResourceByIndex(getIntent().getIntExtra("selectedImageIndex",0)));
+        Logic15.reset();
+
+
         GridLayout mContainerView = (GridLayout) findViewById(R.id.container);
         mContainerView.setBackgroundResource(R.drawable.background);
-        GameLogic = new Logic15(this);
+        displayer = new Displayer(this, SIZE, bmp);
+        displayer.setDisplay(Logic15.getBoard());
+
         mSensorListener = new GyroRunner(this);
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), SensorManager.SENSOR_DELAY_GAME);
@@ -49,6 +58,24 @@ public class Game15Activity extends Activity  implements MoveListener {
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
         mWakeLock.acquire();
+
+
+        findViewById(R.id.container).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (isFinished) {
+                    Game15Activity.this.finish();
+                    return false;
+                }
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    displayer.setDisplay( Logic15.getSolved());
+
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    displayer.setDisplay( Logic15.getBoard());
+                }
+                return true;
+            }
+        });
     }
 
 
@@ -83,9 +110,11 @@ public class Game15Activity extends Activity  implements MoveListener {
 
     @Override
     public void onEvent(MoveEvent e) {
-        if (GameLogic.onEvent(e)) {
+        if (Logic15.onEvent(e)) {
             mSensorManager.unregisterListener(mSensorListener);
             Toast.makeText(this, "GAME OVER. YOU WON", Toast.LENGTH_LONG).show();
+            isFinished = true;
         }
+        displayer.setDisplay( Logic15.getBoard());
     }
 }

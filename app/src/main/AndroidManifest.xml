@@ -42,7 +42,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="whatever.Fifteen.Menu15Activity"
-            android:label="Menu 15"
+            android:label="@string/game_race_name"
             android:screenOrientation="portrait" />
         <activity android:name="whatever.Fifteen.Game15Activity"
             android:label="Play 15"

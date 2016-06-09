@@ -15,35 +15,24 @@ import whatever.gamepool.MoveListener;
  */
 public class Logic15 {
     private static final int SIZE = 4;
-    private Displayer displayer;
-    Game15Activity game;
+
+    public static int[][] getBoard() {
+        return board;
+    }
 
     /*
-    *  Matrix representing game board. Stores values for each field, zero for empty fields
-    *  Accessing values like in matrix, from [0, 0] to [SIZE-1, SIZE-1]
-    */
-    private static int[][] board;
+        *  Matrix representing game board. Stores values for each field, zero for empty fields
+        *  Accessing values like in matrix, from [0, 0] to [SIZE-1, SIZE-1]
+        */
+    private static int[][] board = new int[SIZE][SIZE];
     private static Random rand = new Random();
 
-    public Logic15(Activity a) {
-        displayer = new Displayer(a, SIZE);
-        game = (Game15Activity) a;
 
-        if (board == null) {
-            resetGame();
-        }
-        displayer.setDisplay(board);
-    }
 
-    public static void reset()
-    {
-        board = null;
-    }
-    public void resetGame() {
+    public static void reset() {
         board = new int[SIZE][SIZE];
         fill();
         moveRandom();
-        displayer.setDisplay(board);
     }
 
 
@@ -54,7 +43,7 @@ public class Logic15 {
             board[(int)i/SIZE][i%SIZE] = i;
         }
     }
-    private void moveRandom(){
+    private static void moveRandom(){
         boolean changed;
 
         for(int i = 0; i <SIZE*SIZE*SIZE; i++)
@@ -83,20 +72,19 @@ public class Logic15 {
 
 
     // To be replaced by event listener
-    public boolean onEvent(MoveEvent d) {
-        boolean changed = false;
+    public static boolean onEvent(MoveEvent d) {
         switch (d.getDirection()) {
             case UP:
-                changed = moveUp();
+                moveUp();
                 break;
             case RIGHT:
-                changed = moveRight();
+                moveRight();
                 break;
             case DOWN:
-                changed = moveDown();
+                moveDown();
                 break;
             case LEFT:
-                changed = moveLeft();
+                moveLeft();
                 break;
             default:
                 try {
@@ -108,12 +96,7 @@ public class Logic15 {
                 break;
         }
 
-        displayer.setDisplay(board);
-
-        if (checkIfFinished()) {
-            return true;
-        }
-        return false;
+        return checkIfFinished();
     }
 
     private static boolean moveRight() {
@@ -131,7 +114,7 @@ public class Logic15 {
         return false;
     }
 
-    private boolean moveLeft() {
+    private static boolean moveLeft() {
         for (int i = 0; i < SIZE; i++) {  // for each row
             for(int j = 0; j < SIZE-1; j++)
             {
@@ -146,7 +129,7 @@ public class Logic15 {
         return false;
     }
 
-    private boolean moveDown() {
+    private static boolean moveDown() {
         for (int i = 1; i < SIZE; i++) {  // for each row
             for(int j = 0; j < SIZE; j++)
             {
@@ -161,7 +144,7 @@ public class Logic15 {
         return false;
     }
 
-    private boolean moveUp() {
+    private static boolean moveUp() {
         for (int i = 0; i < SIZE-1; i++) {  // for each row
             for(int j = 0; j < SIZE; j++)
             {
@@ -203,7 +186,7 @@ public class Logic15 {
         return res;
     }
 
-    public boolean checkIfFinished() {
+    public static boolean checkIfFinished() {
         int last = board[0][0];
         for (int i = 1; i < SIZE*SIZE; i++)
         {
@@ -212,6 +195,14 @@ public class Logic15 {
 
         }
         return true;
+    }
+    public static int[][] getSolved(){
+        int[][] solvedBoard = new int[SIZE][SIZE];
+        for(int i = 0; i < SIZE*SIZE; i++)
+        {
+            solvedBoard[i%SIZE][(int)i/SIZE] = i;
+        }
+        return solvedBoard;
     }
 
 }
