@@ -129,7 +129,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:text="3"
+        android:text="easy"
         android:id="@+id/race_levelValue"
         android:layout_marginLeft="10dp"
         android:onClick="onLevelChanged"

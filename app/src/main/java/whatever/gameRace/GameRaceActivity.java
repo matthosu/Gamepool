@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -37,9 +38,7 @@ public class GameRaceActivity extends Activity implements RotationListener {
         Display display = getWindowManager().getDefaultDisplay();
         size = new Point();
         display.getSize(size);
-        LogicRace.getInstance().setRes(size.x);
-
-
+        LogicRace.setRes(size.x);
 
         setContentView(createView());
 
@@ -68,17 +67,25 @@ public class GameRaceActivity extends Activity implements RotationListener {
     }
 
     private View createView() {
-        int width = size.x;
-        int height = size.y;
         rw = new RaceView(this, null, getIntent().getIntExtra("colorId", 0));
 
-        LinearLayout myLayout = new LinearLayout(this);
-        myLayout.addView(rw);
+        RelativeLayout myLayout = new RelativeLayout(this);
+
+        RelativeLayout.LayoutParams rwParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, size.x);
+        rwParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        rwParams.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE);
+        rwParams.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
+
+        myLayout.addView(rw, rwParams);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
         View v = inflater.inflate(R.layout.race_score, null);
 
-        myLayout.addView(v);
+        RelativeLayout.LayoutParams vParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, size.y - size.x);
+        vParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        vParams.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE);
+
+        myLayout.addView(v, vParams);
         return myLayout;
     }
 
