@@ -1,11 +1,9 @@
-package whatever.Fifteen;
+package whatever.gameFifteen;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.view.View;
@@ -13,7 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import whatever.gameRace.GameRaceActivity;
 import whatever.gameRace.LogicRace;
 import whatever.gamepool.R;
 
@@ -44,7 +41,7 @@ public class Menu15Activity extends Activity {
         openGameVew = new Intent(this, Game15Activity.class);
         openGameVew.putExtra("selectedImageIndex", selectedImage);
 
-        Button rRestartGame = (Button) findViewById(R.id.race_ResetGame);
+        Button rRestartGame = (Button) findViewById(R.id.race_StartGame);
         Button rResetScore = (Button) findViewById(R.id.race_ResetScore);
         Button rBack = (Button) findViewById(R.id.race_Back);
 

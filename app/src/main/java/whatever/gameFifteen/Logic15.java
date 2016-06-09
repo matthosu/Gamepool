@@ -1,14 +1,8 @@
-package whatever.Fifteen;
-
-import android.app.Activity;
-import android.util.Size;
+package whatever.gameFifteen;
 
 import java.util.Random;
 
-import whatever.Fifteen.Displayer;
-import whatever.Fifteen.Game15Activity;
 import whatever.gamepool.MoveEvent;
-import whatever.gamepool.MoveListener;
 
 /**
  * Created by Mateusz on 2016-06-08.

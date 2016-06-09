@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="whatever.Fifteen.Game15Activity">
+    tools:context="whatever.gameFifteen.Game15Activity">
 
     <GridLayout
         android:id="@+id/container"

@@ -1,4 +1,4 @@
-package whatever.Fifteen;
+package whatever.gameFifteen;
 
 import android.app.Activity;
 import android.content.Context;

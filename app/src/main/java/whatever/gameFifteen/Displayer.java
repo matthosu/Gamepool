@@ -1,14 +1,11 @@
-package whatever.Fifteen;
+package whatever.gameFifteen;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.widget.ImageView;
 
-import whatever.game2048.Game2048Activity;
 import whatever.gamepool.R;
 
 public class Displayer { //klasa odpowiedzialna za podstawianie obrazkow do Logic2048

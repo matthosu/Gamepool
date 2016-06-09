@@ -41,10 +41,10 @@
             android:label="Race play"
             android:screenOrientation="portrait" />
         <activity
-            android:name="whatever.Fifteen.Menu15Activity"
+            android:name="whatever.gameFifteen.Menu15Activity"
             android:label="@string/game_race_name"
             android:screenOrientation="portrait" />
-        <activity android:name="whatever.Fifteen.Game15Activity"
+        <activity android:name="whatever.gameFifteen.Game15Activity"
             android:label="Play 15"
             android:screenOrientation="portrait" />
     </application>
