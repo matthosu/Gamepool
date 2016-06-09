@@ -1,6 +1,9 @@
 package whatever.Fifteen;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.widget.ImageView;
 
 import whatever.game2048.Game2048Activity;
@@ -13,13 +16,35 @@ public class Displayer { //klasa odpowiedzialna za podstawianie obrazkow do Logi
             {R.id.imageView10, R.id.imageView11, R.id.imageView12, R.id.imageView13},
             {R.id.imageView20, R.id.imageView21, R.id.imageView22, R.id.imageView23},
             {R.id.imageView30, R.id.imageView31, R.id.imageView32, R.id.imageView33}};
+    private Bitmap[] tiles;
+
 
     // up - tablica zawierajaca id'ki pól w layout'cie
     public Displayer(Activity a, int size) {
         SIZE = size;
         activity = (Game15Activity) a;
 
-        setResolution();
+
+        tiles = sliceImg( Bitmap.createScaledBitmap(BitmapFactory.decodeResource(activity.getResources(), R.drawable.yoda) , activity.width, activity.width, false), 4, 4);
+
+    }
+    public void setImg(Bitmap img){
+        tiles = sliceImg(Bitmap.createScaledBitmap(img,activity.width, activity.width, true), 4,4);
+    }
+
+    private Bitmap[] sliceImg(Bitmap img, int x, int y) {
+        Bitmap[] res = new Bitmap[x*y];
+
+        for(int i = 0; i < x ; i++){
+            for(int j = 0; j < y ; j++){
+                System.out.println(j*(img.getHeight()-1)/y + (j+1) * (img.getHeight()-1)/y +  " < " + (img.getHeight()-1) );
+                res [i*4 + j] = Bitmap.createBitmap(img, i*(img.getWidth()-1)/x, j*(img.getHeight()-1)/y,
+                        (img.getWidth()-1)/x, (img.getHeight()-1)/y);
+            }
+        }
+        res[x*y-1] = null;
+
+        return res;
     }
 
     private void setResolution() {
@@ -38,7 +63,7 @@ public class Displayer { //klasa odpowiedzialna za podstawianie obrazkow do Logi
         for (int row = 0; row < SIZE; row++) {
             for (int column = 0; column < SIZE; column++) {
                 square = (ImageView) activity.findViewById(imageViewId[row][column]);
-                square.setImageResource(getDrawableId(currTable[row][column]));
+                square.setImageBitmap(getDrawableBitmap(currTable[row][column]));
             }
         }
     }
@@ -79,5 +104,8 @@ public class Displayer { //klasa odpowiedzialna za podstawianie obrazkow do Logi
                 return R.drawable.boom;
             //jak cos pojdzie zle to dostaniemy wizualny blad - pole bedzie wygladac jak background
         }
+    }
+    private Bitmap getDrawableBitmap(int i) { //metoda zwracajaca R.drawable w zaleznosci od wartosci w tablicy Logic2048
+        return tiles[i];
     }
 }
