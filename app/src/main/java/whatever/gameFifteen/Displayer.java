@@ -61,7 +61,7 @@ public class Displayer { //klasa odpowiedzialna za podstawianie obrazkow do Logi
 
         for(int i = 0; i < x ; i++){
             for(int j = 0; j < y ; j++){
-                res [i*4 + j] = Bitmap.createBitmap(img, i*(img.getWidth())/x, j*(img.getHeight())/y,
+                res [j*4 + i] = Bitmap.createBitmap(img, i*(img.getWidth())/x, j*(img.getHeight())/y,
                         (img.getWidth()-1)/x, (img.getHeight()-1)/y);
             }
         }

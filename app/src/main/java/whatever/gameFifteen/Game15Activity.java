@@ -32,6 +32,7 @@ public class Game15Activity extends Activity  implements MoveListener {
     public int height;
     boolean isFinished;
     View container;
+    TextView tf, btf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,11 @@ public class Game15Activity extends Activity  implements MoveListener {
                 return true;
             }
         });
+        tf = (TextView) findViewById(R.id.t15_ScoreValue);
+        btf = (TextView) findViewById(R.id.t15_BestScoreValue);
+
+        tf.setText("test");
+        btf.setText("test");
     }
 
 
@@ -114,21 +120,13 @@ public class Game15Activity extends Activity  implements MoveListener {
 
     @Override
     public void onEvent(MoveEvent e) {
-        System.out.println("KWIATUSZKI");
         if (Logic15.onEvent(e)) {
             mSensorManager.unregisterListener(mSensorListener);
-            Toast.makeText(this, "GAME OVER. YOU WON", Toast.LENGTH_LONG).show();
             isFinished = true;
+            Toast.makeText(this, "GAME COMPLETED\nClick on screen to exit", Toast.LENGTH_LONG).show();
+        } else isFinished = false;
 
-
-        }
- /*       TextView tf = (TextView) findViewById(R.id.t15_ScoreValue);
         tf.setText(Logic15.getScore());
-
-        TextView btf = (TextView) findViewById(R.id.t15_BestScoreValue);
-        btf.setText(Logic15.getBestScore());
-*/
-        System.out.println("KWIATUSZKI");
 
         displayer.setDisplay( Logic15.getBoard());
     }

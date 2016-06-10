@@ -29,6 +29,7 @@ public class Logic15 {
         board = new int[SIZE][SIZE];
         fill();
         moveRandom();
+        System.out.print("DUUUUPAAA"+ getBoardParsedToString());
     }
 
 
@@ -44,8 +45,7 @@ public class Logic15 {
 
         for(int i = 0; i <SIZE*SIZE*SIZE; i++)
         {
-            changed = false;
-            switch((int)(Math.random() * 4))
+             switch((int)(Math.random() * 4))
             {
                 case 0:
                     changed = moveUp();
@@ -59,8 +59,11 @@ public class Logic15 {
                 case 3:
                     changed = moveLeft();
                     break;
+                default:
+                    changed = false;
             }
-            if(!changed){i--;}
+            if(!changed){
+                i--;}
         }
     }
 
@@ -105,8 +108,6 @@ public class Logic15 {
                 {
                         board[i][j] = board[i][j-1];
                         board[i][j-1] = SIZE*SIZE -1;
-
-                    System.out.println("TADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                         return true;
                 }
             }
@@ -122,8 +123,6 @@ public class Logic15 {
                 {
                     board[i][j] = board[i][j+1];
                     board[i][j+1] = SIZE*SIZE -1;
-
-                    System.out.println("TADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     return true;
                 }
             }
@@ -139,7 +138,6 @@ public class Logic15 {
                 {
                         board[i][j] = board[i-1][j];
                         board[i-1][j] = SIZE*SIZE -1;
-                        System.out.println("TADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                         return true;
                 }
             }
@@ -155,8 +153,6 @@ public class Logic15 {
                 {
                     board[i][j] = board[i+1][j];
                     board[i+1][j] = SIZE*SIZE -1;
-
-                    System.out.println("TADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     return true;
                 }
             }
@@ -211,17 +207,17 @@ public class Logic15 {
         int[][] solvedBoard = new int[SIZE][SIZE];
         for(int i = 0; i < SIZE*SIZE; i++)
         {
-            solvedBoard[i%SIZE][(int)i/SIZE] = i;
+            solvedBoard[(int)i/SIZE] [i%SIZE] = i;
         }
         return solvedBoard;
     }
-    public static int getScore()
+    public static String getScore()
     {
-        return score;
+        return "" + score;
     }
 
-    public static int getBestScore()
+    public static String getBestScore()
     {
-        return bestScore;
+        return "" + bestScore;
     }
 }

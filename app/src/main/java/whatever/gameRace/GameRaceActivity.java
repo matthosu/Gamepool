@@ -117,10 +117,10 @@ public class GameRaceActivity extends Activity implements RotationListener {
             rw.invalidate();
         }
         TextView tf = (TextView) findViewById(R.id.tRace_ScoreValue);
-        tf.setText(LogicRace.getBestScore());
+        tf.setText("" + LogicRace.getBestScore());
 
         TextView btf = (TextView) findViewById(R.id.tRace_BestScoreValue);
-        btf.setText(LogicRace.getBestScore());
+        btf.setText("" + LogicRace.getBestScore());
 
 
     }

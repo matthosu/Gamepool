@@ -17,8 +17,8 @@ import whatever.gamepool.R;
 public class Menu15Activity extends Activity {
     protected PowerManager.WakeLock mWakeLock;
     Intent openGameVew;
-    private final static int[] images = {R.drawable.yoda, R.drawable.lady, R.drawable.mist, R.drawable.lotr,
-            R.drawable.witcher, R.drawable.starry_night, R.drawable.car6, R.drawable.car7, R.drawable.car8, R.drawable.car9};
+    private final static int[] images = {R.drawable.item_fifteen, R.drawable.lady, R.drawable.mist, R.drawable.lotr,
+            R.drawable.witcher, R.drawable.starry_night, R.drawable.car6, R.drawable.yoda};
     ImageView imageSwitcher;
     private int selectedImage = -1; //index in images - answer for: which one is selected?
 
