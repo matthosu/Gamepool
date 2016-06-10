@@ -60,8 +60,6 @@ public class Logic15 {
                     changed = moveLeft();
                     break;
             }
-            if(!changed) System.out.println("miss");
-            else System.out.println(" pozostało: " + i);
             if(!changed){i--;}
         }
     }
@@ -72,16 +70,16 @@ public class Logic15 {
         boolean moved = false;
         switch (d.getDirection()) {
             case UP:
-                moved = moveUp();
+                moved =moveUp();
                 break;
             case RIGHT:
-                moved = moveRight();
+                moved=moveRight();
                 break;
             case DOWN:
-                moved = moveDown();
+                moved=moveDown();
                 break;
             case LEFT:
-                moved = moveLeft();
+                moved=moveLeft();
                 break;
             default:
                 try {
@@ -107,6 +105,8 @@ public class Logic15 {
                 {
                         board[i][j] = board[i][j-1];
                         board[i][j-1] = SIZE*SIZE -1;
+
+                    System.out.println("TADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                         return true;
                 }
             }
@@ -122,6 +122,8 @@ public class Logic15 {
                 {
                     board[i][j] = board[i][j+1];
                     board[i][j+1] = SIZE*SIZE -1;
+
+                    System.out.println("TADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     return true;
                 }
             }
@@ -137,6 +139,7 @@ public class Logic15 {
                 {
                         board[i][j] = board[i-1][j];
                         board[i-1][j] = SIZE*SIZE -1;
+                        System.out.println("TADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                         return true;
                 }
             }
@@ -152,6 +155,8 @@ public class Logic15 {
                 {
                     board[i][j] = board[i+1][j];
                     board[i+1][j] = SIZE*SIZE -1;
+
+                    System.out.println("TADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     return true;
                 }
             }

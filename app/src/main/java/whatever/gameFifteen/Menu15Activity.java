@@ -41,9 +41,9 @@ public class Menu15Activity extends Activity {
 
         openGameVew = new Intent(this, Game15Activity.class);
 
-        Button rRestartGame = (Button) findViewById(R.id.race_ResetGame);
-        Button rResetScore = (Button) findViewById(R.id.race_ResetScore);
-        Button rBack = (Button) findViewById(R.id.race_Back);
+        Button rRestartGame = (Button) findViewById(R.id.StartGame15);
+        Button rResetScore = (Button) findViewById(R.id.ResetScore15);
+        Button rBack = (Button) findViewById(R.id.Back15);
 
         rRestartGame.setOnClickListener(new View.OnClickListener() {
             @Override

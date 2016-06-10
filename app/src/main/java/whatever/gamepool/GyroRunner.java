@@ -12,7 +12,7 @@ import android.hardware.SensorEventListener;
 public class GyroRunner implements SensorEventListener {
     private MoveListener mListener;
     private final int MOVEMENT_VALUE = 3;
-    private long lastChange;
+    private static long lastChange;
 
     public GyroRunner() {
         lastChange = System.nanoTime();
@@ -26,8 +26,9 @@ public class GyroRunner implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getStringType().equals(event.sensor.STRING_TYPE_GYROSCOPE)) {
-            if (System.nanoTime() - lastChange > 1000000000 && (Math.abs(event.values[0]) > MOVEMENT_VALUE
+            if ((System.nanoTime() - lastChange)/Math.pow(10, 8) > 6 && (Math.abs(event.values[0]) > MOVEMENT_VALUE
                     || Math.abs(event.values[1]) > MOVEMENT_VALUE)) {
+                System.out.println(System.nanoTime() + "\t\t" + lastChange + "\t\t" + (System.nanoTime() - lastChange) + "\t\t" + (System.nanoTime() - lastChange)/Math.pow(10,8));
                 lastChange = System.nanoTime();
                 if (event.values[1] > MOVEMENT_VALUE) {
                     mListener.onEvent(new MoveEvent(this, Directions.RIGHT));

@@ -48,7 +48,6 @@ public class Game2048Activity extends Activity  implements MoveListener {
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
         mWakeLock.acquire();
-        System.out.println("Doszło TUTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJ");
         displayer = new Displayer(this, Logic2048.getSIZE());
 
         displayer.setDisplay(Logic2048.getBoard());
