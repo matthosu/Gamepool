@@ -43,7 +43,7 @@
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
         android:layout_alignTop="@+id/raceLinearLayout"
-        android:layout_alignEnd="@+id/race_ResetGame"
+        android:layout_alignEnd="@+id/StartGame15"
         android:id="@+id/raceLinearLayout2">
 
         <TextView
@@ -64,7 +64,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/race_ResetScore"
+        android:id="@+id/ResetScore15"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:id="@+id/race_ResetGame"
+        android:id="@+id/StartGame15"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
         android:layout_alignParentEnd="true" />
 
     <Button
-        android:id="@+id/race_Back"
+        android:id="@+id/Back15"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
