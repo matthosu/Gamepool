@@ -15,4 +15,5 @@
     <string name="zero">0</string>
     <string name="select_level">Select level:</string>
     <string name="easy">easy</string>
+    <string name="restart_game">restart_game</string>
 </resources>

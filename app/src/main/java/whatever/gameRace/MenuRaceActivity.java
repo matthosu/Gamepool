@@ -46,7 +46,6 @@ public class MenuRaceActivity extends Activity {
 
         Button rRestartGame = (Button) findViewById(R.id.race_StartGame);
         Button rResetScore = (Button) findViewById(R.id.race_ResetScore);
-        Button rBack = (Button) findViewById(R.id.race_Back);
 
         rRestartGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,12 +62,7 @@ public class MenuRaceActivity extends Activity {
                 updateScores();
             }
         });
-        rBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(openGameVew);
-            }
-        });
+
 
         onSwitch(null);
         //startActivity(openGameVew);

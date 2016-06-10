@@ -48,8 +48,6 @@ public class Game15Activity extends Activity  implements MoveListener {
 
         GridLayout mContainerView = (GridLayout) findViewById(R.id.container);
         mContainerView.setBackgroundResource(R.drawable.background);
-        displayer = new Displayer(this, SIZE, bmp);
-        displayer.setDisplay(Logic15.getBoard());
 
         mSensorListener = new GyroRunner(this);
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -61,6 +59,8 @@ public class Game15Activity extends Activity  implements MoveListener {
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
         mWakeLock.acquire();
 
+        displayer = new Displayer(this, SIZE, bmp);
+        displayer.setDisplay(Logic15.getBoard());
 
         findViewById(R.id.container).setOnTouchListener(new View.OnTouchListener() {
             @Override

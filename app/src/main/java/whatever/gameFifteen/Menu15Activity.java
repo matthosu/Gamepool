@@ -41,7 +41,7 @@ public class Menu15Activity extends Activity {
 
         openGameVew = new Intent(this, Game15Activity.class);
 
-        Button rRestartGame = (Button) findViewById(R.id.race_StartGame);
+        Button rRestartGame = (Button) findViewById(R.id.race_ResetGame);
         Button rResetScore = (Button) findViewById(R.id.race_ResetScore);
         Button rBack = (Button) findViewById(R.id.race_Back);
 
