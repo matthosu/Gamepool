@@ -10,11 +10,15 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.view.Display;
 import android.widget.GridLayout;
+import android.widget.TextView;
 
 import whatever.gamepool.GyroRunner;
+import whatever.gamepool.MoveEvent;
+import whatever.gamepool.MoveListener;
 import whatever.gamepool.R;
 
-public class Game2048Activity extends Activity {
+public class Game2048Activity extends Activity  implements MoveListener {
+    private Displayer displayer;
 
     private SensorManager mSensorManager;
     private GyroRunner mSensorListener;
@@ -28,12 +32,15 @@ public class Game2048Activity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game2048);
 
+
+        displayer = new Displayer(this, Logic2048.getSIZE());
+
         initialize();
 
         GridLayout mContainerView = (GridLayout) findViewById(R.id.container);
         mContainerView.setBackgroundResource(R.drawable.background);
         GameLogic = new Logic2048(this);
-        mSensorListener = new GyroRunner(GameLogic);
+        mSensorListener = new GyroRunner(this);
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), SensorManager.SENSOR_DELAY_GAME);
         //Obiekt GameLogic obsługuje wyświetlanie, jest listenerem który dostaje wiadomości od mSensorListener (kiedy się poruszyć)
@@ -42,6 +49,8 @@ public class Game2048Activity extends Activity {
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
         mWakeLock.acquire();
+        displayer.setDisplay(Logic2048.getBoard());
+
     }
 
 
@@ -74,5 +83,19 @@ public class Game2048Activity extends Activity {
         display.getSize(size);
         width = size.x;
         height = size.y;
+    }
+
+    @Override
+    public void onEvent(MoveEvent e) {
+        if (GameLogic.onEvent(e)) {
+            Logic2048.resetGame();
+        }
+
+        TextView tf = (TextView) findViewById(R.id.t2048_ScoreValue);
+        tf.setText(Logic2048.getScore());
+
+        TextView btf = (TextView) findViewById(R.id.t2048_BestScoreValue);
+        btf.setText(Logic2048.getMaxScore());
+        displayer.setDisplay(Logic2048.getBoard());
     }
 }

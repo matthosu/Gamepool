@@ -10,9 +10,8 @@ import whatever.gamepool.MoveListener;
 /**
  * Class implementing 2048 game logic - basic operations of mowing elements up, down, left, right
  */
-public class Logic2048 implements MoveListener {
+public class Logic2048{
     private static final int SIZE = 4;
-    private Displayer displayer;
     Game2048Activity game;
 
     /*
@@ -25,13 +24,11 @@ public class Logic2048 implements MoveListener {
     private static int maxScore = 0;
 
     public Logic2048(Activity a) {
-        displayer = new Displayer(a, SIZE);
         game = (Game2048Activity) a;
 
         if (board == null) {
             resetGame();
         }
-        displayer.setDisplay(board);
     }
 
     public static int getScore() {
@@ -80,7 +77,7 @@ public class Logic2048 implements MoveListener {
     }
 
     // To be replaced by event listener
-    public void onEvent(MoveEvent d) {
+    public boolean onEvent(MoveEvent d) {
         boolean changed = false;
         switch (d.getDirection()) {
             case UP:
@@ -106,10 +103,7 @@ public class Logic2048 implements MoveListener {
         }
         if (changed) fillRandom();
 
-        if (checkIfFinished()) {
-            Logic2048.resetGame();
-        }
-        displayer.setDisplay(board);
+        return checkIfFinished();
     }
 
     private boolean moveRight() {
@@ -306,5 +300,12 @@ public class Logic2048 implements MoveListener {
                 || i < SIZE - 1 && board[i][j] == board[i + 1][j]
                 || j > 0 && board[i][j] == board[i][j - 1]
                 || j < SIZE - 1 && board[i][j] == board[i][j + 1];
+    }
+
+    public static int getSIZE(){
+        return SIZE;
+    }
+    public static int[][] getBoard(){
+        return board;
     }
 }

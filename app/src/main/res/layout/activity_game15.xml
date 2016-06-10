@@ -190,7 +190,7 @@
             android:layout_alignParentStart="true" />
 
         <TextView
-            android:id="@+id/t2048_ScoreValue"
+            android:id="@+id/t15_ScoreValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -213,7 +213,7 @@
             android:layout_centerVertical="true" />
 
         <TextView
-            android:id="@+id/t2048_BestScoreValue"
+            android:id="@+id/t15_BestScoreValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -13,7 +13,9 @@ import android.os.PowerManager;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import whatever.gamepool.GyroRunner;
@@ -116,7 +118,16 @@ public class Game15Activity extends Activity  implements MoveListener {
             mSensorManager.unregisterListener(mSensorListener);
             Toast.makeText(this, "GAME OVER. YOU WON", Toast.LENGTH_LONG).show();
             isFinished = true;
+
+            TextView tf = (TextView) findViewById(R.id.t15_ScoreValue);
+            tf.setText(Logic15.getBestScore());
+
+            TextView btf = (TextView) findViewById(R.id.t15_BestScoreValue);
+            btf.setText(Logic15.getBestScore());
+
         }
+
+
         displayer.setDisplay( Logic15.getBoard());
     }
 }

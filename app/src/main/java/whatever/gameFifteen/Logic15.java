@@ -20,6 +20,8 @@ public class Logic15 {
         */
     private static int[][] board = new int[SIZE][SIZE];
     private static Random rand = new Random();
+    private static int score = 0;
+    private static int bestScore = 0;
 
 
 
@@ -66,19 +68,20 @@ public class Logic15 {
 
 
     // To be replaced by event listener
-    public static boolean onEvent(MoveEvent d) {
+    public static boolean onEvent(MoveEvent d){
+        boolean moved = false;
         switch (d.getDirection()) {
             case UP:
-                moveUp();
+                moved = moveUp();
                 break;
             case RIGHT:
-                moveRight();
+                moved = moveRight();
                 break;
             case DOWN:
-                moveDown();
+                moved = moveDown();
                 break;
             case LEFT:
-                moveLeft();
+                moved = moveLeft();
                 break;
             default:
                 try {
@@ -89,7 +92,10 @@ public class Logic15 {
                 }
                 break;
         }
-
+        if (moved)
+        {
+            score++;
+        }
         return checkIfFinished();
     }
 
@@ -154,7 +160,9 @@ public class Logic15 {
     }
 
     public static void loadState(String boardStr) {
+        Logic15.bestScore = bestScore;
         if (boardStr != null) {
+            Logic15.score = score;
             Logic15.board = parseStringToBoard(boardStr);
         }
     }
@@ -188,6 +196,10 @@ public class Logic15 {
             last = board[(int)i/SIZE][i%SIZE];
 
         }
+        if(bestScore > score)
+        {
+            bestScore = score;
+        }
         return true;
     }
     public static int[][] getSolved(){
@@ -198,5 +210,13 @@ public class Logic15 {
         }
         return solvedBoard;
     }
+    public static int getScore()
+    {
+        return score;
+    }
 
+    public static int getBestScore()
+    {
+        return bestScore;
+    }
 }
